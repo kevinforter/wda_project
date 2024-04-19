@@ -56,6 +56,7 @@ buildNumber.properties
 .idea/*
 .idea/*.iml
 .idea/*.xml
+.idea/encodings.xml
 *.iws
 *.iml
 *.ipr
