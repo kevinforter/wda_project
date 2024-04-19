@@ -126,6 +126,8 @@
         <openjfx.version>21.0.2</openjfx.version>
 
         <jakartaPersistenceApi.version>3.1.0</jakartaPersistenceApi.version>
+        <orgEclipsePersistenceJpa.version>4.0.1</orgEclipsePersistenceJpa.version>
+        <postgres.version>42.6.0</postgres.version>
     </properties>
 
     <dependencyManagement>
@@ -155,6 +157,12 @@
                 <scope>compile</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
@@ -222,6 +230,17 @@
                 <artifactId>jakarta.persistence-api</artifactId>
                 <version>${jakartaPersistenceApi.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.jpa</artifactId>
+                <version>${orgEclipsePersistenceJpa.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgres.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
