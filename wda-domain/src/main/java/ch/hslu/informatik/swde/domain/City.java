@@ -7,14 +7,14 @@ import jakarta.persistence.Id;
 import java.util.Objects;
 
 /**
- * Diese Klasse repräsentiert eine Ortschaft.
+ * Diese Klasse repräsentiert eine City.
  *
  * @author Kevin Forter
  * @version 1.0
  */
 
 @Entity
-public class Ortschaft {
+public class City {
 
     @Id
     @GeneratedValue
@@ -26,10 +26,10 @@ public class Ortschaft {
 
     private String name;
 
-    public Ortschaft() {
+    public City() {
     }
 
-    public Ortschaft(int zip, String name, String country) {
+    public City(int zip, String name, String country) {
         this.country = country;
         this.zip = zip;
         this.name = name;
@@ -69,7 +69,7 @@ public class Ortschaft {
 
     @Override
     public String toString() {
-        return "Ortschaft{" +
+        return "City{" +
                 "id=" + id +
                 ", zip=" + zip +
                 ", name=" + name +
@@ -80,7 +80,7 @@ public class Ortschaft {
     @Override
     public boolean equals(Object object) {
         if (object == this) return true;
-        return (object instanceof Ortschaft o)
+        return (object instanceof City o)
                 && (o.getName().equals(this.name))
                 && (o.getCountry().equals(this.country))
                 && (o.getZip() == this.zip)
