@@ -1,25 +1,25 @@
-package ch.hslu.swde.wda.persister.impl;
+package ch.hslu.informatik.swde.persister.impl;
 
-import ch.hslu.swde.wda.domain.Ortschaft;
-import ch.hslu.swde.wda.persister.DAO.OrtschaftDAO;
-import ch.hslu.swde.wda.persister.util.JpaUtil;
+import ch.hslu.informatik.swde.domain.City;
+import ch.hslu.informatik.swde.persister.DAO.CityDAO;
+import ch.hslu.informatik.swde.persister.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
-public class OrtschaftDAOImpl extends GenericDAOImpl<Ortschaft> implements OrtschaftDAO {
+public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
 
-    public OrtschaftDAOImpl() {
-        super(Ortschaft.class);
+    public CityDAOImpl() {
+        super(City.class);
     }
 
     @Override
-    public Ortschaft findCityByName(String cityName) {
+    public City findCityByName(String cityName) {
 
         EntityManager em = JpaUtil.createEntityManager();
 
-        Ortschaft objFromDb = null;
+        City objFromDb = null;
 
-        TypedQuery<Ortschaft> tQry = em.createQuery("SELECT o FROM Ortschaft" + " o WHERE o.name = :name", Ortschaft.class);
+        TypedQuery<City> tQry = em.createQuery("SELECT o FROM City" + " o WHERE o.name = :name", City.class);
         tQry.setParameter("name", cityName);
 
         try {
