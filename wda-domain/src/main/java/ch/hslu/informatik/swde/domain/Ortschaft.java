@@ -1,4 +1,4 @@
-package ch.hslu.swde.wda.domain;
+package ch.hslu.informatik.swde.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
