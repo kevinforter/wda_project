@@ -54,6 +54,7 @@
     </developers>
     <modules>
         <module>wda-domain</module>
+        <module>wda-persister</module>
     </modules>
 
     <scm>
