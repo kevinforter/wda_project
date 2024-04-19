@@ -53,6 +53,9 @@ buildNumber.properties
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/*
+.idea/*.iml
+.idea/*.xml
 *.iws
 *.iml
 *.ipr
