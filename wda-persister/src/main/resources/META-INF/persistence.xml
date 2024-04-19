@@ -29,8 +29,8 @@
 
 			<!-- SQL-Statements ausgeben (JPA-Provider spezifisch, nur während der
 				Entwicklungszeit sinnvoll!) -->
-			<property name="eclipselink.logging.level.sql" value="on" />
-			<property name="eclipselink.logging.parameters" value="true" />
+			<property name="eclipselink.logging.level.sql" value="off" />
+			<property name="eclipselink.logging.parameters" value="false" />
 
 		</properties>
 	</persistence-unit>
