@@ -18,7 +18,7 @@ class CityDAOImpl_IT {
     }
 
     @AfterEach
-    void tearDown() { // Util.cleanDatabase();
+    void tearDown() { Util.cleanDatabase();
     }
 
     @Test
