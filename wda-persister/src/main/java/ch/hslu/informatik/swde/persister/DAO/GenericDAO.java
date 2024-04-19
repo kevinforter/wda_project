@@ -1,4 +1,4 @@
-package ch.hslu.swde.wda.persister.DAO;
+package ch.hslu.informatik.swde.persister.DAO;
 
 
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.List;
  * Diese Schnittstelle gibt die Hauptfunktionalitäten vor, die für die
  * Persistierung von Objekten benötigt werden.
  *
- * @author Jovan
+ * @author Kevin Forter
  * @version 1.0
  */
 
@@ -38,14 +38,16 @@ public interface GenericDAO<T> {
      * Sucht und liefert ein Objekt vom Typ T, basierend auf seiner eindeutigen ID.
      *
      * @param id Die eindeutige ID des zu suchenden Objekts.
-     * @return Das gefundene Objekt vom Typ T, oder null, falls kein Objekt mit der angegebenen ID gefunden wurde.
+     * @return Das gefundene Objekt vom Typ T, oder ein leeres Objekt,
+     * falls kein Objekt mit der angegebenen ID gefunden wurde.
      */
     T findById(int id);
 
     /**
      * Holt alle Objekte vom Typ T aus dem Datenbestand.
      *
-     * @return Eine Liste aller Objekte vom Typ T im Datenbestand. Die Liste kann leer sein, falls keine Objekte gefunden wurden.
+     * @return Eine Liste aller Objekte vom Typ T im Datenbestand.
+     * Die Liste kann leer sein, falls keine Objekte gefunden wurden.
      */
     List<T> alle();
 

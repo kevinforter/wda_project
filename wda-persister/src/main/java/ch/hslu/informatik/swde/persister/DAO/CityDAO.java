@@ -1,22 +1,23 @@
-package ch.hslu.swde.wda.persister.DAO;
+package ch.hslu.informatik.swde.persister.DAO;
 
-import ch.hslu.swde.wda.domain.Ortschaft;
+import ch.hslu.informatik.swde.domain.City;
 
 /**
  * Diese Schnittstelle ergänzt die generische Persister-Schnittstelle
  * mit zusätzlichen Funktionalitäten für die Persistierung von Ortschaften.
  *
- * @author Jovan und Rony
+ * @author Kevin Forter
  * @version 1.0
  */
 
-public interface OrtschaftDAO extends GenericDAO<Ortschaft> {
+public interface CityDAO extends GenericDAO<City> {
 
     /**
-     * Sucht und liefert eine Ortschaft anhand ihres Namens.
+     * Sucht und liefert eine City anhand ihres Namens.
      *
-     * @param cityName Der Name der zu suchenden Ortschaft.
-     * @return Eine Ortschaft-Objekt, falls eine Ortschaft mit dem angegebenen Namen gefunden wurde; andernfalls null.
+     * @param cityName Der Name der zu suchenden City.
+     * @return Ein City-Objekt, falls eine City mit dem angegebenen Namen gefunden wurde
+     * andernfalls leeres City-Objekt.
      */
-    Ortschaft findCityByName(String cityName);
+    City findCityByName(String cityName);
 }
