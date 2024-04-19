@@ -1,11 +1,12 @@
-package ch.hslu.swde.wda.reader.util;
+package ch.hslu.informatik.swde.rws.util;
 
-import ch.hslu.swde.wda.domain.Ortschaft;
-import ch.hslu.swde.wda.persister.DAO.GenericDAO;
-import ch.hslu.swde.wda.persister.impl.GenericDAOImpl;
-import ch.hslu.swde.wda.persister.util.JpaUtil;
-import ch.hslu.swde.wda.reader.WdaProxy;
-import ch.hslu.swde.wda.reader.WdaProxyImpl;
+import ch.hslu.informatik.swde.domain.City;
+import ch.hslu.informatik.swde.persister.DAO.CityDAO;
+import ch.hslu.informatik.swde.persister.DAO.GenericDAO;
+import ch.hslu.informatik.swde.persister.impl.CityDAOImpl;
+import ch.hslu.informatik.swde.persister.impl.GenericDAOImpl;
+import ch.hslu.informatik.swde.persister.util.JpaUtil;
+import ch.hslu.informatik.swde.rws.reader.*;
 import jakarta.persistence.EntityManager;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class Util {
 
-    private static final GenericDAO<Ortschaft> daoOrtschaft = new GenericDAOImpl<>(Ortschaft.class);
+    private static final GenericDAO<City> daoOrtschaft = new GenericDAOImpl<>(City.class);
 
     private Util() {
 
@@ -24,9 +25,7 @@ public class Util {
         EntityManager em = JpaUtil.createEntityManager();
         em.getTransaction().begin();
 
-        em.createQuery("DELETE FROM Wetter e").executeUpdate();
-        em.createQuery("DELETE FROM Station e").executeUpdate();
-        em.createQuery("DELETE FROM Ortschaft e").executeUpdate();
+        em.createQuery("DELETE FROM City e").executeUpdate();
 
         em.getTransaction().commit();
 
@@ -38,10 +37,10 @@ public class Util {
 
         WdaProxy proxy = new WdaProxyImpl();
 
-        List<Ortschaft> resOrt = proxy.readOrtschaft();
+        List<City> resOrt = proxy.readOrtschaft();
 
-        for (Ortschaft o : resOrt) {
-            daoOrtschaft.speichern(o);
+        for (City c : resOrt) {
+            daoOrtschaft.speichern(c);
         }
     }
 
