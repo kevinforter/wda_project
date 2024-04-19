@@ -4,7 +4,7 @@
  * Version: 1.0.0
  */
 
-package ch.hslu.swde.wda.rws.util;
+package ch.hslu.informatik.swde.rws.util;
 
 import jakarta.ws.rs.ext.ParamConverter;
 
