@@ -19,11 +19,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ch.hslu.informatik.swde</groupId>
-    <artifactId>own_wda</artifactId>
+    <artifactId>own-wda</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <name>own_wda</name>
+    <name>own-wda</name>
     <description>
         Eigene WDA app überarbeitet
     </description>
@@ -52,6 +52,9 @@
             </roles>
         </developer>
     </developers>
+    <modules>
+        <module>wda-domain</module>
+    </modules>
 
     <scm>
         <connection>scm:git:https://${scm.developer.uid}@gitlab.switch.ch/hslu/${scm.group.name}/${project.artifactId}.git</connection>
