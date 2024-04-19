@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Diese Klasse repräsentiert eine Ortschaft.
  *
- * @author Rony und Florian
+ * @author Kevin Forter
  * @version 1.0
  */
 
@@ -26,22 +26,7 @@ public class Ortschaft {
 
     private String name;
 
-    private double longitude;
-
-    private double latitude;
-
-    private int stationId;
-
     public Ortschaft() {
-    }
-
-    public Ortschaft(int zip, String name, String country, double longitude, double latitude, int stationId) {
-        this.country = country;
-        this.zip = zip;
-        this.name = name;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.stationId = stationId;
     }
 
     public Ortschaft(int zip, String name, String country) {
@@ -82,53 +67,28 @@ public class Ortschaft {
         this.country = country;
     }
 
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public int getStationId() {
-        return stationId;
-    }
-
-    public void setStationId(int stationId) {
-        this.stationId = stationId;
-    }
-
     @Override
     public String toString() {
         return "Ortschaft{" +
                 "id=" + id +
                 ", zip=" + zip +
-                ", name='" + name + '\'' +
-                ", country='" + country + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", stationId=" + stationId +
+                ", name=" + name +
+                ", country=" + country +
                 '}';
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ortschaft ortschaft = (Ortschaft) o;
-        return id == ortschaft.id && zip == ortschaft.zip && Double.compare(longitude, ortschaft.longitude) == 0 && Double.compare(latitude, ortschaft.latitude) == 0 && Double.compare(stationId, ortschaft.stationId) == 0 && Objects.equals(name, ortschaft.name) && Objects.equals(country, ortschaft.country);
+    public boolean equals(Object object) {
+        if (object == this) return true;
+        return (object instanceof Ortschaft o)
+                && (o.getName().equals(this.name))
+                && (o.getCountry().equals(this.country))
+                && (o.getZip() == this.zip)
+                && (o.getId() == this.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, zip, name, country, longitude, latitude, stationId);
+        return Objects.hash(id, zip, name, country);
     }
 }
