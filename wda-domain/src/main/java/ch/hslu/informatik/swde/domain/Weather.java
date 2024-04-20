@@ -2,20 +2,23 @@ package ch.hslu.informatik.swde.domain;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Objects;
 
 /**
- * Diese Klasse repräsentiert das Wetter.
+ * Diese Klasse repräsentiert das Weather.
  *
  * @author Kevin Forter
- * @version 1.0
+ * @version 1.1
  */
 
 @Entity
-public class Wetter {
+public class Weather implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 9073351299461634591L;
 
     @Id
     @GeneratedValue
@@ -36,10 +39,10 @@ public class Wetter {
     private double windSpeed;
     private double windDirection;
 
-    public Wetter() {
+    public Weather() {
     }
 
-    public Wetter(LocalDateTime DTstamp, String weatherSummery, String weatherDescription, double currTempCelsius, double pressure, double humidity, double windSpeed, double windDirection) {
+    public Weather(LocalDateTime DTstamp, String weatherSummery, String weatherDescription, double currTempCelsius, double pressure, double humidity, double windSpeed, double windDirection) {
         this.DTstamp = DTstamp;
         this.weatherSummery = weatherSummery;
         this.weatherDescription = weatherDescription;
@@ -141,7 +144,7 @@ public class Wetter {
     @Override
     public boolean equals(Object object) {
         if (object == this) return true;
-        return (object instanceof Wetter o)
+        return (object instanceof Weather o)
                 && (o.getId() == this.id)
                 && (o.getCityId() == this.cityId)
                 && (o.getCity().equals(this.city))
@@ -155,7 +158,7 @@ public class Wetter {
 
     @Override
     public String toString() {
-        return "Wetter{" +
+        return "Weather{" +
                 "id=" + id +
                 ", DTstamp=" + DTstamp +
                 ", ortschaft=" + city +
