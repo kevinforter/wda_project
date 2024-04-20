@@ -37,9 +37,8 @@ public class Util {
 
         HashMap<String, City> resOrt = proxy.readOrtschaften();
 
-        for (String c : resOrt.keySet()) {
-            City city = resOrt.get(c);
-            daoOrtschaft.speichern(city);
+        for (City c : resOrt.values()) {
+            daoOrtschaft.speichern(c);
         }
     }
 
