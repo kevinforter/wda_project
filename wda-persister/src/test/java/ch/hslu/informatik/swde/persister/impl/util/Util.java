@@ -104,4 +104,25 @@ public class Util {
 
         return list;
     }
+
+    public static LinkedHashMap<LocalDateTime, Weather> createWeatherMap() {
+
+        CityDAO daoO = new CityDAOImpl();
+        LinkedHashMap<LocalDateTime, Weather> weatherMap = new LinkedHashMap<>();
+
+        for (int i = 0; i < createOrtschaftList().size(); i++) {
+
+            City ort = daoO.findCityByName(createOrtschaftList().get(i).getName());
+
+            Weather weather1 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 21, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
+            Weather weather2 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 22, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
+            Weather weather3 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 23, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
+
+            weatherMap.put(weather1.getDTstamp(), weather1);
+            weatherMap.put(weather2.getDTstamp(), weather2);
+            weatherMap.put(weather3.getDTstamp(), weather3);
+        }
+
+        return weatherMap;
+    }
 }

@@ -47,6 +47,8 @@ public class WeatherDAOImpl extends GenericDAOImpl<Weather> implements WeatherDA
 
         EntityManager em = JpaUtil.createEntityManager();
 
+        Weather objFromDb = null;
+
         TypedQuery<Weather> tQry = em.createQuery(
                 "SELECT w FROM Weather" + " w " +
                         "WHERE w.cityId = :ortschaftId AND w.DTstamp = :dateTime"
@@ -55,11 +57,14 @@ public class WeatherDAOImpl extends GenericDAOImpl<Weather> implements WeatherDA
         tQry.setParameter("dateTime", dateTime);
         tQry.setParameter("ortschaftId", ortschaftId);
 
-        Weather objFromDb = tQry.getSingleResult();
-
+        try {
+            objFromDb = tQry.getSingleResult();
+        } catch (Exception e) {
+            // No entities found in the database
+            // Handle the case where there are no entities
+        }
         em.close();
-
-        return objFromDb != null ? objFromDb : new Weather();
+        return objFromDb;
     }
 
     @Override

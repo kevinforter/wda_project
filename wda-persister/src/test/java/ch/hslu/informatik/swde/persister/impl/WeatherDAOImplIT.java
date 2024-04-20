@@ -103,4 +103,22 @@ public class WeatherDAOImplIT {
             assertEquals(w, daoW.findById(w.getId()));
         }
     }
+
+    @Test
+    void saveAllWeather() {
+
+        WeatherDAO dao = new WeatherDAOImpl();
+        CityDAO daoO = new CityDAOImpl();
+
+        List<City> ortschaftList = Util.createOrtschaftList();
+
+        for (City o : ortschaftList) {
+            daoO.speichern(o);
+            assertEquals(o, daoO.findById(o.getId()));
+        }
+
+        dao.saveAllWeather(Util.createWeatherMap());
+
+        assertEquals(3, dao.alle().size());
+    }
 }
