@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class WdaProxyImpl implements WdaProxy {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final String format = "application/json";
 
+    private static final CityDAO dao = new CityDAOImpl();
+
     @Override
     public List<City> readOrtschaft() {
         try {
@@ -35,7 +38,7 @@ public class WdaProxyImpl implements WdaProxy {
             HttpRequest req = HttpRequest.newBuilder(uri).header("Accept", format).build();
             HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
 
-            List<City> ortListe = new LinkedList<>();
+            List<City> ortListe = new ArrayList<>();
             if (res.statusCode() == 200) {
 
                 JsonNode node = mapper.readTree(res.body());
@@ -66,14 +69,14 @@ public class WdaProxyImpl implements WdaProxy {
                     } else {
                         // Log-Eintrag machen
                         LOG.info("Error occurred, Status code: " + res.statusCode());
-                        return new LinkedList<>();
+                        return new ArrayList<>();
                     }
                 }
 
                 if (ortListe.isEmpty()) {
                     // No data found in JSON response, log message and return empty List
                     LOG.info("No data found for" + uri);
-                    return new LinkedList<>();
+                    return new ArrayList<>();
                 }
 
                 return ortListe;
@@ -81,13 +84,13 @@ public class WdaProxyImpl implements WdaProxy {
             } else {
                 // Log-Eintrag machen
                 LOG.info("Error occurred, Status code: " + res.statusCode());
-                return new LinkedList<>();
+                return new ArrayList<>();
             }
 
         } catch (Exception e) {
             // Log-Eintrag machen
             // return new ArrayList<Message>();
-            LOG.error("Error occurred");
+            LOG.error("Error occurred: " + e);
             throw new RuntimeException(e);
         }
     }
