@@ -12,7 +12,7 @@ import java.util.Objects;
  * Diese Klasse repräsentiert eine City.
  *
  * @author Kevin Forter
- * @version 1.0
+ * @version 1.1
  */
 
 @Entity
