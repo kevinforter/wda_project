@@ -46,7 +46,7 @@ public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
                 City existingCity = findEntityByField("name", city.getName());
 
                 // If the city is not in the database, persist it
-                if (existingCity != null) em.persist(city);
+                if (existingCity == null) em.persist(city);
             }
 
             em.getTransaction().commit();
