@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,13 +30,13 @@ public class ApiReaderImpl implements ApiReader {
     private static final String format = "application/json";
 
     @Override
-    public List<City> readOrtschaften() {
+    public HashMap<String, City> readOrtschaften() {
         try {
             URI uri = URI.create(BASE_URI + "weatherdata-provider/rest/weatherdata/cities/");
             HttpRequest req = HttpRequest.newBuilder(uri).header("Accept", format).build();
             HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
 
-            List<City> cityList = new ArrayList<>();
+            HashMap<String, City> cityMap = new HashMap<>();
             if (res.statusCode() == 200) {
 
                 JsonNode node = mapper.readTree(res.body());
@@ -61,27 +62,27 @@ public class ApiReaderImpl implements ApiReader {
                         String country = parts[1].substring(8);
                         city.setCountry(country);
 
-                        cityList.add(city);
+                        cityMap.put(name, city);
 
                     } else {
                         // Log-Eintrag machen
                         LOG.info("Error occurred, Status code: " + res.statusCode());
-                        return new ArrayList<>();
+                        return new HashMap<String, City>();
                     }
                 }
 
-                if (cityList.isEmpty()) {
+                if (cityMap.isEmpty()) {
                     // No data found in JSON response, log message and return empty List
                     LOG.info("No data found for" + uri);
-                    return new ArrayList<>();
+                    return new HashMap<String, City>();
                 }
 
-                return cityList;
+                return cityMap;
 
             } else {
                 // Log-Eintrag machen
                 LOG.info("Error occurred, Status code: " + res.statusCode());
-                return new ArrayList<>();
+                return new HashMap<String, City>();
             }
 
         } catch (Exception e) {

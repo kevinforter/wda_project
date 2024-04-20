@@ -7,6 +7,7 @@ import ch.hslu.informatik.swde.persister.util.JpaUtil;
 import ch.hslu.informatik.swde.rws.reader.*;
 import jakarta.persistence.EntityManager;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Util {
@@ -34,10 +35,11 @@ public class Util {
 
         ApiReader proxy = new ApiReaderImpl();
 
-        List<City> resOrt = proxy.readOrtschaften();
+        HashMap<String, City> resOrt = proxy.readOrtschaften();
 
-        for (City c : resOrt) {
-            daoOrtschaft.speichern(c);
+        for (String c : resOrt.keySet()) {
+            City city = resOrt.get(c);
+            daoOrtschaft.speichern(city);
         }
     }
 

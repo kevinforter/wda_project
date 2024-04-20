@@ -2,6 +2,7 @@ package ch.hslu.informatik.swde.rws.reader;
 
 import ch.hslu.informatik.swde.domain.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,5 +20,5 @@ public interface ApiReader {
      *
      * @return Eine Liste von Ortschaft-Objekten, die aus der Antwort des Webservice extrahiert wurden.
      */
-    List<City> readOrtschaften();
+    HashMap<String, City> readOrtschaften();
 }
