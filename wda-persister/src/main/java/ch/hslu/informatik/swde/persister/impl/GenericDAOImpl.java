@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -103,6 +104,25 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
         em.close();
 
         return objFromDb;
+    }
+
+    @Override
+    public T findEntityByField(String fieldName, String value) {
+        EntityManager em = JpaUtil.createEntityManager();
+
+        T objFromDb = null;
+
+        TypedQuery<T> tQry = em.createQuery("SELECT o FROM " + entityClass.getSimpleName() + " o WHERE o." + fieldName + " = :value", entityClass);
+        tQry.setParameter("value", value);
+
+        try {
+            objFromDb = tQry.getSingleResult();
+        } catch (Exception e) {
+            // No entity found in the database
+        } finally {
+            em.close();
+            return objFromDb;
+        }
     }
 
     @Override

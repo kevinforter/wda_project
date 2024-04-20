@@ -75,6 +75,17 @@ public class CityDAOImplIT {
     }
 
     @Test
+    void testFindEntityByField() {
+
+        CityDAO dao = new CityDAOImpl();
+
+        for (City c : Util.createOrtschaftList()) {
+            dao.speichern(c);
+            assertEquals(c, dao.findEntityByField("name", c.getName()));
+        }
+    }
+
+    @Test
     void saveAllCities() {
 
         CityDAO dao = new CityDAOImpl();

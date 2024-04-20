@@ -44,6 +44,16 @@ public interface GenericDAO<T> {
     T findById(int id);
 
     /**
+     * Sucht und liefert ein Objekt vom Typ T, basierend auf dem Feldnamen und Wert.
+     *
+     * @param fieldName der Feldname wo sich value befindet.
+     * @param value der Wert nach dem Gesucht wird
+     * @return Das gefundene Objekt vom Typ T, oder ein leeres Objekt,
+     * falls kein Objekt mit der angegebenen Parameter gefunden wurde.
+     */
+    T findEntityByField(String fieldName, String value);
+
+    /**
      * Holt alle Objekte vom Typ T aus dem Datenbestand.
      *
      * @return Eine Liste aller Objekte vom Typ T im Datenbestand.
