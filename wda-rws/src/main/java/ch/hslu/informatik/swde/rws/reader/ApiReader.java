@@ -2,9 +2,7 @@ package ch.hslu.informatik.swde.rws.reader;
 
 import ch.hslu.informatik.swde.domain.*;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Diese Schnittstelle gibt die Funktionalitäten vor, welche für die Abfrage
@@ -21,5 +19,26 @@ public interface ApiReader {
      *
      * @return Eine Liste von Ortschaft-Objekten, die aus der Antwort des Webservice extrahiert wurden.
      */
-    LinkedHashMap<Integer, City> readOrtschaften();
+    LinkedList<String> readCityNames();
+
+    /**
+     * Liest eine Liste von Ortschaften von einem externen Webservice.
+     *
+     * @return Eine Liste von Ortschaft-Objekten, die aus der Antwort des Webservice extrahiert wurden.
+     */
+    City readCityDetails(String cityName);
+
+    /**
+     * Liest eine Liste von Ortschaften von einem externen Webservice.
+     *
+     * @return Eine Liste von Ortschaft-Objekten, die aus der Antwort des Webservice extrahiert wurden.
+     */
+    LinkedHashMap<Integer, City> readCityDetailsList(LinkedList<String> cityNames);
+
+    /**
+     * Liest eine Liste von Ortschaften von einem externen Webservice.
+     *
+     * @return Eine Liste von Ortschaft-Objekten, die aus der Antwort des Webservice extrahiert wurden.
+     */
+    LinkedHashMap<Integer, City> readCities();
 }

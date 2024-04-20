@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,20 +20,65 @@ class ApiReaderIT {
 
     @BeforeEach
     void setUp() {
-        //Util.cleanDatabase();
+        Util.cleanDatabase();
     }
 
     @AfterAll
     static void cleanUp() {
-        //Util.cleanDatabase();
+        Util.cleanDatabase();
     }
 
     @Test
-    void getOrtschaften() {
+    void getCityNames() {
 
         ApiReader proxy = new ApiReaderImpl();
 
-        LinkedHashMap<Integer, City> resOrt = proxy.readOrtschaften();
+        LinkedList<String> resNames = proxy.readCityNames();
+        assertNotNull(resNames);
+        assertEquals(40, resNames.size());
+
+        for (String s : resNames) {
+            System.out.println(s);
+        }
+    }
+
+    @Test
+    void getCityDetails() {
+
+        ApiReader proxy = new ApiReaderImpl();
+
+        LinkedList<String> resNames = proxy.readCityNames();
+        assertNotNull(resNames);
+        assertEquals(40, resNames.size());
+
+        for (String s : resNames) {
+            City city = proxy.readCityDetails(s);
+            System.out.println(city);
+        }
+    }
+
+    @Test
+    void getCityDetailsList() {
+
+        ApiReader proxy = new ApiReaderImpl();
+
+        LinkedList<String> resNames = proxy.readCityNames();
+        assertNotNull(resNames);
+        assertEquals(40, resNames.size());
+
+        LinkedHashMap<Integer, City> resDetails = proxy.readCityDetailsList(resNames);
+
+        for (City c : resDetails.values()) {
+            System.out.println(c);
+        }
+    }
+
+    @Test
+    void getCities() {
+
+        ApiReader proxy = new ApiReaderImpl();
+
+        LinkedHashMap<Integer, City> resOrt = proxy.readCities();
         assertNotNull(resOrt);
         assertEquals(40, resOrt.size());
 
@@ -40,6 +86,6 @@ class ApiReaderIT {
             System.out.println(c);
         }
 
-        dao.saveAllCities(resOrt);
+        //dao.saveAllCities(resOrt);
     }
 }

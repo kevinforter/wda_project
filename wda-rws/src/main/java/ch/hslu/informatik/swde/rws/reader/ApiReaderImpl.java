@@ -12,10 +12,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Diese Klasse stellt eine konkrete Implementierung der Schnittstelle
@@ -31,7 +28,141 @@ public class ApiReaderImpl implements ApiReader {
     private static final String format = "application/json";
 
     @Override
-    public LinkedHashMap<Integer, City> readOrtschaften() {
+    public LinkedList<String> readCityNames() {
+        try {
+            URI uri = URI.create(BASE_URI + "weatherdata-provider/rest/weatherdata/cities/");
+            HttpRequest req = HttpRequest.newBuilder(uri).header("Accept", format).build();
+            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+
+            LinkedList<String> cityNames = new LinkedList<>();
+            if (res.statusCode() == 200) {
+
+                JsonNode node = mapper.readTree(res.body());
+                for (JsonNode n : node) {
+
+                    String name = n.get("name").asText();
+                    String encodedCityName = name.replace(" ", "+");
+
+                    cityNames.add(encodedCityName);
+                }
+
+            } else {
+                // Log-Eintrag machen
+                LOG.info("Error occurred, Status code: " + res.statusCode());
+                return new LinkedList<>();
+            }
+
+            if (cityNames.isEmpty()) {
+                // No data found in JSON response, log message and return empty List
+                LOG.info("No data found for" + uri);
+                return new LinkedList<>();
+            }
+
+            return cityNames;
+
+        } catch (Exception e) {
+            // Log-Eintrag machen
+            // return new ArrayList<Message>();
+            LOG.error("Error occurred: " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public City readCityDetails(String cityName) {
+        try {
+            URI uri = URI.create(BASE_URI + "weatherdata-provider/rest/weatherdata?city=" + cityName);
+            HttpRequest req = HttpRequest.newBuilder(uri).header("Accept", format).build();
+            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+
+            City city = new City();
+            if (res.statusCode() == 200) {
+
+                JsonNode node = mapper.readTree(res.body());
+
+                int zip = node.get("city").get("zip").asInt();
+                String data = node.get("data").asText();
+                String[] parts = data.split("#");
+                String country = parts[1].substring(8);
+
+                city.setName(cityName);
+                city.setZip(zip);
+                city.setCountry(country);
+
+            } else {
+                // Log-Eintrag machen
+                LOG.info("Error occurred, Status code: " + res.statusCode());
+                return new City();
+            }
+
+            if (city.equals(null)) {
+                // No data found in JSON response, log message and return empty List
+                LOG.info("No data found for" + uri);
+                return new City();
+            }
+
+            return city;
+
+        } catch (Exception e) {
+            // Log-Eintrag machen
+            // return new ArrayList<Message>();
+            LOG.error("Error occurred: " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public LinkedHashMap<Integer, City> readCityDetailsList(LinkedList<String> cityNames) {
+        try {
+
+            LinkedHashMap<Integer, City> cityMap = new LinkedHashMap<>();
+
+            for (String cityName : cityNames) {
+                URI uri = URI.create(BASE_URI + "weatherdata-provider/rest/weatherdata?city=" + cityName);
+                HttpRequest req = HttpRequest.newBuilder(uri).GET().header("Accept", format).build();
+                HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+
+                if (res.statusCode() == 200) {
+                    JsonNode node = mapper.readTree(res.body());
+
+                    int zip = node.get("city").get("zip").asInt();
+                    String data = node.get("data").asText();
+                    String[] parts = data.split("#");
+                    String country = parts[1].substring(8);
+
+                    City city = new City();
+                    city.setName(cityName);
+                    city.setZip(zip);
+                    city.setCountry(country);
+
+                    cityMap.put(zip, city);
+
+                } else {
+                    // Log-Eintrag machen
+                    LOG.info("Error occurred, Status code: " + res.statusCode());
+                    return new LinkedHashMap<Integer, City>();
+                }
+
+                if (cityMap.isEmpty()) {
+                    // No data found in JSON response, log message and return empty List
+                    LOG.info("No data found for" + uri);
+                    return new LinkedHashMap<Integer, City>();
+                }
+            }
+
+            return cityMap;
+
+        } catch (
+                Exception e) {
+            // Log-Eintrag machen
+            // return new ArrayList<Message>();
+            LOG.error("Error occurred: " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public LinkedHashMap<Integer, City> readCities() {
         try {
             URI uri = URI.create(BASE_URI + "weatherdata-provider/rest/weatherdata/cities/");
             HttpRequest req = HttpRequest.newBuilder(uri).header("Accept", format).build();

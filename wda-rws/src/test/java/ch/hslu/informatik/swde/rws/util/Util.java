@@ -24,6 +24,7 @@ public class Util {
         EntityManager em = JpaUtil.createEntityManager();
         em.getTransaction().begin();
 
+        em.createQuery("DELETE FROM Weather e").executeUpdate();
         em.createQuery("DELETE FROM City e").executeUpdate();
 
         em.getTransaction().commit();
@@ -36,7 +37,7 @@ public class Util {
 
         ApiReader proxy = new ApiReaderImpl();
 
-        LinkedHashMap<Integer, City> resOrt = proxy.readOrtschaften();
+        LinkedHashMap<Integer, City> resOrt = proxy.readCities();
 
         for (City c : resOrt.values()) {
             daoOrtschaft.speichern(c);
