@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -14,7 +16,10 @@ import java.util.Objects;
  */
 
 @Entity
-public class City {
+public class City implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -1284083700964199722L;
 
     @Id
     @GeneratedValue
