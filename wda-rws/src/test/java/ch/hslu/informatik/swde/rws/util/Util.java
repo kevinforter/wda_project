@@ -33,7 +33,7 @@ public class Util {
 
     }
 
-    public static void createOrtschaften() {
+    public static void createCities() {
 
         ApiReader proxy = new ApiReaderImpl();
 

@@ -1,6 +1,7 @@
 package ch.hslu.informatik.swde.rws.reader;
 
 import ch.hslu.informatik.swde.domain.City;
+import ch.hslu.informatik.swde.domain.Weather;
 import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.impl.CityDAOImpl;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,6 +13,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -26,7 +31,9 @@ public class ApiReaderImpl implements ApiReader {
     private static final String BASE_URI = "http://eee-03318.simple.eee.intern:8080/";
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final String format = "application/json";
+    private static final CityDAO daoCity = new CityDAOImpl();
 
+    /*-----------------------------------------------CITY API REQUEST-----------------------------------------------*/
     @Override
     public LinkedList<String> readCityNames() {
         try {
@@ -224,4 +231,148 @@ public class ApiReaderImpl implements ApiReader {
             throw new RuntimeException(e);
         }
     }
+
+    /*----------------------------------------------WEATHER API REQUEST---------------------------------------------*/
+
+    @Override
+    public Weather readCurrentWeatherByCity(String name) {
+        try {
+
+            String encodedCityName = name.replace(" ", "+");
+
+            URI uri = URI.create(BASE_URI + "weatherdata-provider/rest/weatherdata?city=" + encodedCityName);
+            HttpRequest req = HttpRequest.newBuilder(uri).GET().header("Accept", format).build();
+            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+
+            LocalDateTime formatDateTime;
+            if (res.statusCode() == 200) {
+
+                Weather wetter = new Weather();
+
+                JsonNode node = mapper.readTree(res.body());
+
+                String data = node.get("data").asText();
+                String[] parts = data.split("#");
+
+                City ort = daoCity.findCityByName(name);
+                wetter.setCityId(ort.getId());
+
+                String dateTime = parts[0].substring(17);
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                formatDateTime = LocalDateTime.parse(dateTime, format);
+                wetter.setDTstamp(formatDateTime);
+
+                String summery = parts[7].substring(16);
+                wetter.setWeatherSummery(summery);
+
+                String description = parts[8].substring(20);
+                wetter.setWeatherDescription(description);
+
+                double temp = Double.parseDouble(parts[9].substring(28));
+                wetter.setCurrTempCelsius(temp);
+
+                double pressure = Double.parseDouble(parts[10].substring(9));
+                wetter.setPressure(pressure);
+
+                double humidity = Double.parseDouble(parts[11].substring(9));
+                wetter.setHumidity(humidity);
+
+                double wind = Double.parseDouble(parts[12].substring(11));
+                wetter.setWindSpeed(wind);
+
+                double direction = Double.parseDouble(parts[13].substring(15));
+                wetter.setWindDirection(direction);
+
+                return wetter;
+
+            } else {
+                // Log-Eintrag machen
+                LOG.info("Error occurred, Status code: " + res.statusCode());
+                return new Weather();
+            }
+
+        } catch (Exception e) {
+            // Log-Eintrag machen
+            // return new ArrayList<Message>();
+            LOG.error("Error occurred");
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public LinkedHashMap<LocalDateTime, Weather> readWeatherByCityAndYear(String ortschaft, int jahr) {
+        try {
+
+            String encodedCityName = ortschaft.replace(" ", "+");
+
+            URI uri = URI.create(BASE_URI + "weatherdata-provider/rest/weatherdata/cityandyear?city=" + encodedCityName + "&year=" + jahr);
+            HttpRequest req = HttpRequest.newBuilder(uri).header("Accept", format).build();
+            HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+
+            LinkedHashMap<LocalDateTime, Weather> weatherMap = new LinkedHashMap<>();
+            LocalDateTime formatDateTime;
+            if (res.statusCode() == 200) {
+
+                JsonNode node = mapper.readTree(res.body());
+                for (JsonNode n : node) {
+
+                    Weather weather = new Weather();
+
+                    City city = daoCity.findCityByName(ortschaft);
+                    weather.setCityId(city.getId());
+
+                    String data = n.get("data").asText();
+                    String[] parts = data.split("#");
+
+                    String dateTime = parts[0].substring(17);
+                    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    formatDateTime = LocalDateTime.parse(dateTime, format);
+                    weather.setDTstamp(formatDateTime);
+
+                    String summery = parts[7].substring(16);
+                    weather.setWeatherSummery(summery);
+
+                    String description = parts[8].substring(20);
+                    weather.setWeatherDescription(description);
+
+                    double temp = Double.parseDouble(parts[9].substring(28));
+                    weather.setCurrTempCelsius(temp);
+
+                    double pressure = Double.parseDouble(parts[10].substring(9));
+                    weather.setPressure(pressure);
+
+                    double humidity = Double.parseDouble(parts[11].substring(9));
+                    weather.setHumidity(humidity);
+
+                    double wind = Double.parseDouble(parts[12].substring(11));
+                    weather.setWindSpeed(wind);
+
+                    double direction = Double.parseDouble(parts[13].substring(15));
+                    weather.setWindDirection(direction);
+
+                    weatherMap.put(formatDateTime ,weather);
+                }
+
+                if (weatherMap.isEmpty()) {
+                    // No data found in JSON response, log message and return empty List
+                    LOG.info("No data found for" + uri);
+                    return new LinkedHashMap<>();
+                }
+
+                return weatherMap;
+
+            } else {
+                // Log-Eintrag machen
+                LOG.info("Error occurred, Status code: " + res.statusCode());
+                return new LinkedHashMap<>();
+            }
+
+        } catch (Exception e) {
+            // Log-Eintrag machen
+            // return new ArrayList<Message>();
+            LOG.error("Error occurred");
+            throw new RuntimeException(e);
+        }
+    }
+
 }
