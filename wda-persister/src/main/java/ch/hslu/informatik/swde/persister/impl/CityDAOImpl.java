@@ -6,6 +6,8 @@ import ch.hslu.informatik.swde.persister.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
+import java.util.HashMap;
+
 public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
 
     public CityDAOImpl() {
@@ -29,6 +31,28 @@ public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
         } finally {
             em.close();
             return objFromDb;
+        }
+    }
+
+    @Override
+    public void saveAllCities(HashMap<String, City> cityMap) {
+        EntityManager em = JpaUtil.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+
+            for (City city : cityMap.values()) {
+                em.persist(city);
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            System.out.println(e.getMessage());
+        } finally {
+            em.close();
         }
     }
 }

@@ -73,4 +73,14 @@ public class CityDAOImplIT {
             assertEquals(c, dao.findCityByName(c.getName()));
         }
     }
+
+    @Test
+    void saveAllCities() {
+
+        CityDAO dao = new CityDAOImpl();
+
+        dao.saveAllCities(Util.createOrtschaftMap());
+        assertEquals(3, dao.alle().size());
+
+    }
 }
