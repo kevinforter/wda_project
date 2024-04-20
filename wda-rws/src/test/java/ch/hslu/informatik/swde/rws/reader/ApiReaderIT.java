@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,12 +19,12 @@ class ApiReaderIT {
 
     @BeforeEach
     void setUp() {
-        Util.cleanDatabase();
+        //Util.cleanDatabase();
     }
 
     @AfterAll
     static void cleanUp() {
-        Util.cleanDatabase();
+        //Util.cleanDatabase();
     }
 
     @Test
@@ -31,8 +32,14 @@ class ApiReaderIT {
 
         ApiReader proxy = new ApiReaderImpl();
 
-        HashMap<String, City> resOrt = proxy.readOrtschaften();
+        LinkedHashMap<Integer, City> resOrt = proxy.readOrtschaften();
         assertNotNull(resOrt);
         assertEquals(40, resOrt.size());
+
+        for (City c : resOrt.values()) {
+            System.out.println(c);
+        }
+
+        dao.saveAllCities(resOrt);
     }
 }

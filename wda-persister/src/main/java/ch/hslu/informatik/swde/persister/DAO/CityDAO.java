@@ -3,6 +3,7 @@ package ch.hslu.informatik.swde.persister.DAO;
 import ch.hslu.informatik.swde.domain.City;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Diese Schnittstelle ergänzt die generische Persister-Schnittstelle
@@ -28,5 +29,5 @@ public interface CityDAO extends GenericDAO<City> {
      *
      * @param cityMap mit allen Städten
      */
-    void saveAllCities(HashMap<String, City> cityMap);
+    void saveAllCities(LinkedHashMap<Integer, City> cityMap);
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Util {
@@ -38,9 +39,9 @@ public class Util {
         return list;
     }
 
-    public static HashMap<String, City> createOrtschaftMap() {
+    public static LinkedHashMap<Integer, City> createOrtschaftMap() {
 
-        HashMap<String, City> cityMap = new HashMap<>();
+        LinkedHashMap<Integer, City> cityMap = new LinkedHashMap<>();
 
         // Create some cities
         City city1 = new City(3000, "Bern", "CH");
@@ -48,17 +49,17 @@ public class Util {
         City city3 = new City(1201, "Geneva", "CH");
 
         // Put cities in the map with city name as the key
-        cityMap.put(city1.getName(), city1);
-        cityMap.put(city2.getName(), city2);
-        cityMap.put(city3.getName(), city3);
+        cityMap.put(city1.getZip(), city1);
+        cityMap.put(city2.getZip(), city2);
+        cityMap.put(city3.getZip(), city3);
 
         // Retrieve a city from the map
-        City retrievedCity = cityMap.get("Bern");
+        City retrievedCity = cityMap.get(3000);
         System.out.println(retrievedCity);
 
         // Iterate over the map
-        for (String cityName : cityMap.keySet()) {
-            City city = cityMap.get(cityName);
+        for (Integer zip : cityMap.keySet()) {
+            City city = cityMap.get(zip);
             System.out.println(city);
         }
 

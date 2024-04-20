@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
 
@@ -35,7 +36,7 @@ public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
     }
 
     @Override
-    public void saveAllCities(HashMap<String, City> cityMap) {
+    public void saveAllCities(LinkedHashMap<Integer, City> cityMap) {
         EntityManager em = JpaUtil.createEntityManager();
 
         try {

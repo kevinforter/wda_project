@@ -1,19 +1,22 @@
-package ch.hslu.swde.wda.persister.DAO;
+package ch.hslu.informatik.swde.persister.DAO;
 
-import ch.hslu.swde.wda.domain.Wetter;
+import ch.hslu.informatik.swde.domain.City;
+import ch.hslu.informatik.swde.domain.Weather;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * Diese Schnittstelle ergänzt die generische Persister-Schnittstelle
  * mit zusätzlichen Funktionalitäten für die Persistierung von Wetterdaten.
  *
- * @author Jovan und Rony
+ * @author Kevin
  * @version 1.0
  */
 
-public interface WetterDAO extends GenericDAO<Wetter> {
+public interface WeatherDAO extends GenericDAO<Weather> {
 
     /**
      * Holt das neueste Wetter für eine bestimmte Ortschaft basierend auf der Ortschafts-ID.
@@ -21,7 +24,7 @@ public interface WetterDAO extends GenericDAO<Wetter> {
      * @param ortschaftId Die ID der Ortschaft.
      * @return Das neueste Wetter-Objekt für die angegebene Ortschaft; null, wenn keine Daten gefunden werden.
      */
-    Wetter latestWeatherByCity(int ortschaftId);
+    Weather findLatestWeatherByCity(int ortschaftId);
 
     /**
      * Holt Wetterdaten für eine bestimmte Ortschaft zu einem bestimmten Zeitpunkt.
@@ -30,7 +33,7 @@ public interface WetterDAO extends GenericDAO<Wetter> {
      * @param ortschaftId Die ID der Ortschaft.
      * @return Eine Liste von Wetter-Objekten; leer, wenn keine Daten gefunden werden.
      */
-    List<Wetter> getWeatherFromCityByDateTime(LocalDateTime date, int ortschaftId);
+    LinkedHashMap<LocalDateTime, Weather> findWeatherFromCityByDateTime(LocalDateTime date, int ortschaftId);
 
     /**
      * Holt Wetterdaten für eine bestimmte Ortschaft innerhalb eines bestimmten Zeitraums.
@@ -40,7 +43,7 @@ public interface WetterDAO extends GenericDAO<Wetter> {
      * @param bis Enddatum des Zeitraums.
      * @return Eine Liste von Wetter-Objekten; leer, wenn keine Daten gefunden werden.
      */
-    List<Wetter> getWeatherFromCityByTimeSpan(int ortschaftId, LocalDateTime von, LocalDateTime bis);
+    LinkedHashMap<LocalDateTime, Weather> findWeatherFromCityByTimeSpan(int ortschaftId, LocalDateTime von, LocalDateTime bis);
 
     /**
      * Holt die minimale und maximale Temperatur für einen bestimmten Zeitpunkt.
@@ -48,7 +51,7 @@ public interface WetterDAO extends GenericDAO<Wetter> {
      * @param dateTime Der Zeitpunkt für die Abfrage.
      * @return Eine Liste von Wetter-Objekten mit minimalen und maximalen Temperaturen; leer, wenn keine Daten gefunden werden.
      */
-    List<Wetter> minMaxTemperatureByDateTime(LocalDateTime dateTime);
+    LinkedHashMap<LocalDateTime, Weather> findMinMaxTemperatureByDateTime(LocalDateTime dateTime);
 
     /**
      * Holt die minimale und maximale Luftfeuchtigkeit für einen bestimmten Zeitpunkt.
@@ -56,7 +59,7 @@ public interface WetterDAO extends GenericDAO<Wetter> {
      * @param dateTime Der Zeitpunkt für die Abfrage.
      * @return Eine Liste von Wetter-Objekten mit minimalen und maximalen Luftfeuchtigkeitswerten; leer, wenn keine Daten gefunden werden.
      */
-    List<Wetter> minMaxHumidityByDateTime(LocalDateTime dateTime);
+    LinkedHashMap<LocalDateTime, Weather> findMinMaxHumidityByDateTime(LocalDateTime dateTime);
 
     /**
      * Holt den minimalen und maximalen Luftdruck für einen bestimmten Zeitpunkt.
@@ -64,5 +67,12 @@ public interface WetterDAO extends GenericDAO<Wetter> {
      * @param dateTime Der Zeitpunkt für die Abfrage.
      * @return Eine Liste von Wetter-Objekten mit minimalen und maximalen Luftdruckwerten; leer, wenn keine Daten gefunden werden.
      */
-    List<Wetter> minMaxPressureByDateTime(LocalDateTime dateTime);
+    LinkedHashMap<LocalDateTime, Weather> findMinMaxPressureByDateTime(LocalDateTime dateTime);
+
+    /**
+     * Speichert alle Städte in der Map ab
+     *
+     * @param weatherMao mit allen Wetterdaten
+     */
+    void saveAllWeather(HashMap<LocalDateTime, Weather> weatherMao);
 }
