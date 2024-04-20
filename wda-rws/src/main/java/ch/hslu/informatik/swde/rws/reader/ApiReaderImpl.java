@@ -29,13 +29,13 @@ public class ApiReaderImpl implements ApiReader {
     private static final String format = "application/json";
 
     @Override
-    public List<City> readOrtschaft() {
+    public List<City> readOrtschaften() {
         try {
             URI uri = URI.create(BASE_URI + "weatherdata-provider/rest/weatherdata/cities/");
             HttpRequest req = HttpRequest.newBuilder(uri).header("Accept", format).build();
             HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
 
-            List<City> ortListe = new ArrayList<>();
+            List<City> cityList = new ArrayList<>();
             if (res.statusCode() == 200) {
 
                 JsonNode node = mapper.readTree(res.body());
@@ -54,14 +54,14 @@ public class ApiReaderImpl implements ApiReader {
                         String data = node.get("data").asText();
                         String[] parts = data.split("#");
 
-                        City ort = new City();
-                        ort.setName(name);
-                        ort.setZip(zip);
+                        City city = new City();
+                        city.setName(name);
+                        city.setZip(zip);
 
                         String country = parts[1].substring(8);
-                        ort.setCountry(country);
+                        city.setCountry(country);
 
-                        ortListe.add(ort);
+                        cityList.add(city);
 
                     } else {
                         // Log-Eintrag machen
@@ -70,13 +70,13 @@ public class ApiReaderImpl implements ApiReader {
                     }
                 }
 
-                if (ortListe.isEmpty()) {
+                if (cityList.isEmpty()) {
                     // No data found in JSON response, log message and return empty List
                     LOG.info("No data found for" + uri);
                     return new ArrayList<>();
                 }
 
-                return ortListe;
+                return cityList;
 
             } else {
                 // Log-Eintrag machen

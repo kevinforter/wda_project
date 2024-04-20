@@ -34,7 +34,7 @@ public class Util {
 
         ApiReader proxy = new ApiReaderImpl();
 
-        List<City> resOrt = proxy.readOrtschaft();
+        List<City> resOrt = proxy.readOrtschaften();
 
         for (City c : resOrt) {
             daoOrtschaft.speichern(c);

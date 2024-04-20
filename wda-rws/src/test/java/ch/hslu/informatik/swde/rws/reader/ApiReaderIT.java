@@ -26,7 +26,7 @@ class ApiReaderIT {
 
         ApiReader proxy = new ApiReaderImpl();
 
-        List<City> resOrt = proxy.readOrtschaft();
+        List<City> resOrt = proxy.readOrtschaften();
         assertNotNull(resOrt);
         assertEquals(40, resOrt.size());
     }

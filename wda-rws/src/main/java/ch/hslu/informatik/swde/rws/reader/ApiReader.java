@@ -19,5 +19,5 @@ public interface ApiReader {
      *
      * @return Eine Liste von Ortschaft-Objekten, die aus der Antwort des Webservice extrahiert wurden.
      */
-    List<City> readOrtschaft();
+    List<City> readOrtschaften();
 }
