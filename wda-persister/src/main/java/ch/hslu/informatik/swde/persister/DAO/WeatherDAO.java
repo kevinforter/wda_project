@@ -19,10 +19,10 @@ import java.util.List;
 public interface WeatherDAO extends GenericDAO<Weather> {
 
     /**
-     * Holt das neueste Wetter für eine bestimmte Ortschaft basierend auf der Ortschafts-ID.
+     * Holt das neueste Weather für eine bestimmte Ortschaft basierend auf der Ortschafts-ID.
      *
      * @param ortschaftId Die ID der Ortschaft.
-     * @return Das neueste Wetter-Objekt für die angegebene Ortschaft; null, wenn keine Daten gefunden werden.
+     * @return Das neueste Weather-Objekt für die angegebene Ortschaft; null, wenn keine Daten gefunden werden.
      */
     Weather findLatestWeatherByCity(int ortschaftId);
 
@@ -31,9 +31,9 @@ public interface WeatherDAO extends GenericDAO<Weather> {
      *
      * @param date Der spezifische Zeitpunkt.
      * @param ortschaftId Die ID der Ortschaft.
-     * @return Eine Liste von Wetter-Objekten; leer, wenn keine Daten gefunden werden.
+     * @return Eine Liste von Weather-Objekten; leer, wenn keine Daten gefunden werden.
      */
-    LinkedHashMap<LocalDateTime, Weather> findWeatherFromCityByDateTime(LocalDateTime date, int ortschaftId);
+    Weather findWeatherFromCityByDateTime(LocalDateTime date, int ortschaftId);
 
     /**
      * Holt Wetterdaten für eine bestimmte Ortschaft innerhalb eines bestimmten Zeitraums.
@@ -41,38 +41,38 @@ public interface WeatherDAO extends GenericDAO<Weather> {
      * @param ortschaftId Die ID der Ortschaft.
      * @param von Anfangsdatum des Zeitraums.
      * @param bis Enddatum des Zeitraums.
-     * @return Eine Liste von Wetter-Objekten; leer, wenn keine Daten gefunden werden.
+     * @return Eine Liste von Weather-Objekten; leer, wenn keine Daten gefunden werden.
      */
-    LinkedHashMap<LocalDateTime, Weather> findWeatherFromCityByTimeSpan(int ortschaftId, LocalDateTime von, LocalDateTime bis);
+    List<Weather> findWeatherFromCityByTimeSpan(int ortschaftId, LocalDateTime von, LocalDateTime bis);
 
     /**
      * Holt die minimale und maximale Temperatur für einen bestimmten Zeitpunkt.
      *
      * @param dateTime Der Zeitpunkt für die Abfrage.
-     * @return Eine Liste von Wetter-Objekten mit minimalen und maximalen Temperaturen; leer, wenn keine Daten gefunden werden.
+     * @return Eine Liste von Weather-Objekten mit minimalen und maximalen Temperaturen; leer, wenn keine Daten gefunden werden.
      */
-    LinkedHashMap<LocalDateTime, Weather> findMinMaxTemperatureByDateTime(LocalDateTime dateTime);
+    List<Weather> findMinMaxTemperatureByDateTime(LocalDateTime dateTime);
 
     /**
      * Holt die minimale und maximale Luftfeuchtigkeit für einen bestimmten Zeitpunkt.
      *
      * @param dateTime Der Zeitpunkt für die Abfrage.
-     * @return Eine Liste von Wetter-Objekten mit minimalen und maximalen Luftfeuchtigkeitswerten; leer, wenn keine Daten gefunden werden.
+     * @return Eine Liste von Weather-Objekten mit minimalen und maximalen Luftfeuchtigkeitswerten; leer, wenn keine Daten gefunden werden.
      */
-    LinkedHashMap<LocalDateTime, Weather> findMinMaxHumidityByDateTime(LocalDateTime dateTime);
+    List<Weather> findMinMaxHumidityByDateTime(LocalDateTime dateTime);
 
     /**
      * Holt den minimalen und maximalen Luftdruck für einen bestimmten Zeitpunkt.
      *
      * @param dateTime Der Zeitpunkt für die Abfrage.
-     * @return Eine Liste von Wetter-Objekten mit minimalen und maximalen Luftdruckwerten; leer, wenn keine Daten gefunden werden.
+     * @return Eine Liste von Weather-Objekten mit minimalen und maximalen Luftdruckwerten; leer, wenn keine Daten gefunden werden.
      */
-    LinkedHashMap<LocalDateTime, Weather> findMinMaxPressureByDateTime(LocalDateTime dateTime);
+    List<Weather> findMinMaxPressureByDateTime(LocalDateTime dateTime);
 
     /**
      * Speichert alle Städte in der Map ab
      *
-     * @param weatherMao mit allen Wetterdaten
+     * @param weatherMap mit allen Wetterdaten
      */
-    void saveAllWeather(HashMap<LocalDateTime, Weather> weatherMao);
+    void saveAllWeather(HashMap<LocalDateTime, Weather> weatherMap);
 }

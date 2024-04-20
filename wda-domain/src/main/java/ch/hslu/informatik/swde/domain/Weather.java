@@ -2,23 +2,18 @@ package ch.hslu.informatik.swde.domain;
 
 import jakarta.persistence.*;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * Diese Klasse repräsentiert das Weather.
  *
- * @author Kevin Forter
- * @version 1.1
+ * @author Florian
+ * @version 1.0
  */
 
 @Entity
-public class Weather implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 9073351299461634591L;
+public class Weather {
 
     @Id
     @GeneratedValue
@@ -40,6 +35,18 @@ public class Weather implements Serializable {
     private double windDirection;
 
     public Weather() {
+    }
+
+    public Weather(int cityId, LocalDateTime DTstamp, String weatherSummery, String weatherDescription, double currTempCelsius, double pressure, double humidity, double windSpeed, double windDirection) {
+        this.cityId = cityId;
+        this.DTstamp = DTstamp;
+        this.weatherSummery = weatherSummery;
+        this.weatherDescription = weatherDescription;
+        this.currTempCelsius = currTempCelsius;
+        this.pressure = pressure;
+        this.humidity = humidity;
+        this.windSpeed = windSpeed;
+        this.windDirection = windDirection;
     }
 
     public Weather(LocalDateTime DTstamp, String weatherSummery, String weatherDescription, double currTempCelsius, double pressure, double humidity, double windSpeed, double windDirection) {
@@ -73,7 +80,7 @@ public class Weather implements Serializable {
         return cityId;
     }
 
-    public void setCityId(int ortschaftId) {
+    public void setCityId(int cityId) {
         this.cityId = cityId;
     }
 
@@ -147,21 +154,19 @@ public class Weather implements Serializable {
         return (object instanceof Weather o)
                 && (o.getId() == this.id)
                 && (o.getCityId() == this.cityId)
-                && (o.getCity().equals(this.city))
-                && (o.getDTstamp().isEqual(this.DTstamp));
+                && Objects.equals(getCity(), this.city)
+                && Objects.equals(getDTstamp(), this.DTstamp);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getCity(), getCityId(), getDTstamp());
-    }
+
 
     @Override
     public String toString() {
         return "Weather{" +
                 "id=" + id +
+                ", city=" + city +
+                ", city_ID=" + cityId +
                 ", DTstamp=" + DTstamp +
-                ", ortschaft=" + city +
                 ", weatherSummery=" + weatherSummery +
                 ", weatherDescription=" + weatherDescription +
                 ", currTempCelsius=" + currTempCelsius +
