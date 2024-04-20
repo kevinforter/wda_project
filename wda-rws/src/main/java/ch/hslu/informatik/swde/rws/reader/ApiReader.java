@@ -12,7 +12,7 @@ import java.util.List;
  * @version 1.0
  */
 
-public interface WdaProxy {
+public interface ApiReader {
 
     /**
      * Liest eine Liste von Ortschaften von einem externen Webservice.

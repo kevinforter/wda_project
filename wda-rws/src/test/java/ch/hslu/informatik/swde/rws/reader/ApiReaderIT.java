@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WdaProxyIT {
+class ApiReaderIT {
     @BeforeEach
     void setUp() {
         Util.cleanDatabase();
@@ -24,7 +24,7 @@ class WdaProxyIT {
     @Test
     void getOrtschaften() {
 
-        WdaProxy proxy = new WdaProxyImpl();
+        ApiReader proxy = new ApiReaderImpl();
 
         List<City> resOrt = proxy.readOrtschaft();
         assertNotNull(resOrt);

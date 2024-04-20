@@ -1,15 +1,12 @@
 package ch.hslu.informatik.swde.rws.util;
 
 import ch.hslu.informatik.swde.domain.City;
-import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.DAO.GenericDAO;
-import ch.hslu.informatik.swde.persister.impl.CityDAOImpl;
 import ch.hslu.informatik.swde.persister.impl.GenericDAOImpl;
 import ch.hslu.informatik.swde.persister.util.JpaUtil;
 import ch.hslu.informatik.swde.rws.reader.*;
 import jakarta.persistence.EntityManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Util {
@@ -35,7 +32,7 @@ public class Util {
 
     public static void createOrtschaften() {
 
-        WdaProxy proxy = new WdaProxyImpl();
+        ApiReader proxy = new ApiReaderImpl();
 
         List<City> resOrt = proxy.readOrtschaft();
 

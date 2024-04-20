@@ -13,23 +13,20 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Diese Klasse stellt eine konkrete Implementierung der Schnittstelle
- * 'WdaProxy' dar.
+ * 'ApiReader' dar.
  */
 
-public class WdaProxyImpl implements WdaProxy {
+public class ApiReaderImpl implements ApiReader {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WdaProxyImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApiReaderImpl.class);
     private static final HttpClient client = HttpClient.newHttpClient();
     private static final String BASE_URI = "http://eee-03318.simple.eee.intern:8080/";
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final String format = "application/json";
-
-    private static final CityDAO dao = new CityDAOImpl();
 
     @Override
     public List<City> readOrtschaft() {
