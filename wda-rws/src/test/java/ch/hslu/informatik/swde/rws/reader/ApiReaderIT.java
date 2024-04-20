@@ -35,7 +35,5 @@ class ApiReaderIT {
         HashMap<String, City> resOrt = proxy.readOrtschaften();
         assertNotNull(resOrt);
         assertEquals(40, resOrt.size());
-
-        dao.saveAllCities(resOrt);
     }
 }

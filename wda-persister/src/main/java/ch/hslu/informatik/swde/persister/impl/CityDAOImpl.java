@@ -42,7 +42,11 @@ public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
             em.getTransaction().begin();
 
             for (City city : cityMap.values()) {
-                em.persist(city);
+                // Check if the city is already in the database
+                City existingCity = findCityByName(city.getName());
+
+                // If the city is not in the database, persist it
+                if (existingCity != null) em.persist(city);
             }
 
             em.getTransaction().commit();
