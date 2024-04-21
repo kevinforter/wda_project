@@ -5,11 +5,15 @@ import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CityDAOImpl.class);
 
     public CityDAOImpl() {
         super(City.class);
@@ -29,6 +33,7 @@ public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
             objFromDb = tQry.getSingleResult();
         } catch (Exception e) {
             // No entity found in the database
+            LOG.info("No Weather found for City: " + cityName);
         } finally {
             em.close();
             return objFromDb;

@@ -6,6 +6,8 @@ import ch.hslu.informatik.swde.persister.DAO.WeatherDAO;
 import ch.hslu.informatik.swde.persister.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,28 +15,31 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WeatherDAOImpl extends GenericDAOImpl<Weather> implements WeatherDAO {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WeatherDAOImpl.class);
+
     public WeatherDAOImpl() {
         super(Weather.class);
     }
 
     @Override
-    public Weather findLatestWeatherByCity(int ortschaftId) {
+    public Weather findLatestWeatherByCity(int cityId) {
 
         EntityManager em = JpaUtil.createEntityManager();
 
         Weather objFromDb = null;
 
         TypedQuery<Weather> tQry = em.createQuery("SELECT w FROM Weather" +
-                " w WHERE w.cityId = :ortschaftId AND w.DTstamp = (SELECT MAX(w.DTstamp) FROM Weather" +
-                " w WHERE w.cityId = :ortschaftId)", Weather.class);
+                " w WHERE w.cityId = :cityId AND w.DTstamp = (SELECT MAX(w.DTstamp) FROM Weather" +
+                " w WHERE w.cityId = :cityId)", Weather.class);
 
-        tQry.setParameter("ortschaftId", ortschaftId);
+        tQry.setParameter("cityId", cityId);
 
         try {
             objFromDb = tQry.getSingleResult();
         } catch (Exception e) {
             // No entities found in the database
-            // Handle the case where there are no entities
+            LOG.info("No Weather found for City ID: " + cityId);
         }
         em.close();
         return objFromDb;
@@ -43,7 +48,7 @@ public class WeatherDAOImpl extends GenericDAOImpl<Weather> implements WeatherDA
     // https://chat.openai.com/share/5271fd85-cbcf-4fbc-9e5e-f28880cc1cc3
 
     @Override
-    public Weather findWeatherFromCityByDateTime(LocalDateTime dateTime, int ortschaftId) {
+    public Weather findWeatherFromCityByDateTime(LocalDateTime DTstamp, int cityId) {
 
         EntityManager em = JpaUtil.createEntityManager();
 
@@ -51,33 +56,33 @@ public class WeatherDAOImpl extends GenericDAOImpl<Weather> implements WeatherDA
 
         TypedQuery<Weather> tQry = em.createQuery(
                 "SELECT w FROM Weather" + " w " +
-                        "WHERE w.cityId = :ortschaftId AND w.DTstamp = :dateTime"
+                        "WHERE w.cityId = :cityId AND w.DTstamp = :DTstamp"
                 , Weather.class);
 
-        tQry.setParameter("dateTime", dateTime);
-        tQry.setParameter("ortschaftId", ortschaftId);
+        tQry.setParameter("DTstamp", DTstamp);
+        tQry.setParameter("cityId", cityId);
 
         try {
             objFromDb = tQry.getSingleResult();
         } catch (Exception e) {
             // No entities found in the database
-            // Handle the case where there are no entities
+            LOG.info("No Weather found for City ID: " + cityId);
         }
         em.close();
         return objFromDb;
     }
 
     @Override
-    public List<Weather> findWeatherFromCityByTimeSpan(int ortschaftId, LocalDateTime von, LocalDateTime bis) {
+    public List<Weather> findWeatherFromCityByTimeSpan(int cityId, LocalDateTime von, LocalDateTime bis) {
 
         EntityManager em = JpaUtil.createEntityManager();
 
         TypedQuery<Weather> tQry = em.createQuery(
                 "SELECT w FROM Weather" + " w " +
-                        "WHERE w.cityId = :ortschaftId " +
+                        "WHERE w.cityId = :cityId " +
                         "AND w.DTstamp BETWEEN :von AND :bis", Weather.class);
 
-        tQry.setParameter("ortschaftId", ortschaftId);
+        tQry.setParameter("cityId", cityId);
         tQry.setParameter("von", von);
         tQry.setParameter("bis", bis);
 
@@ -89,19 +94,19 @@ public class WeatherDAOImpl extends GenericDAOImpl<Weather> implements WeatherDA
     }
 
     @Override
-    public List<Weather> findMinMaxTemperatureByDateTime(LocalDateTime dateTime) {
+    public List<Weather> findMinMaxTemperatureByDateTime(LocalDateTime DTstamp) {
 
         EntityManager em = JpaUtil.createEntityManager();
 
         TypedQuery<Weather> tQry = em.createQuery("SELECT w FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime AND w.currTempCelsius = (SELECT MAX(w.currTempCelsius) FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime) " +
+                " w WHERE w.DTstamp = :DTstamp AND w.currTempCelsius = (SELECT MAX(w.currTempCelsius) FROM Weather" +
+                " w WHERE w.DTstamp = :DTstamp) " +
                 "UNION " +
                 "SELECT w FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime AND w.currTempCelsius = (SELECT MIN(w.currTempCelsius) FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime)", Weather.class);
+                " w WHERE w.DTstamp = :DTstamp AND w.currTempCelsius = (SELECT MIN(w.currTempCelsius) FROM Weather" +
+                " w WHERE w.DTstamp = :DTstamp)", Weather.class);
 
-        tQry.setParameter("dateTime", dateTime);
+        tQry.setParameter("DTstamp", DTstamp);
 
         List<Weather> objListe = tQry.getResultList();
 
@@ -111,19 +116,19 @@ public class WeatherDAOImpl extends GenericDAOImpl<Weather> implements WeatherDA
     }
 
     @Override
-    public List<Weather> findMinMaxHumidityByDateTime(LocalDateTime dateTime) {
+    public List<Weather> findMinMaxHumidityByDateTime(LocalDateTime DTstamp) {
 
         EntityManager em = JpaUtil.createEntityManager();
 
         TypedQuery<Weather> tQry = em.createQuery("SELECT w FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime AND w.humidity = (SELECT MAX(w.humidity) FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime)" +
+                " w WHERE w.DTstamp = :DTstamp AND w.humidity = (SELECT MAX(w.humidity) FROM Weather" +
+                " w WHERE w.DTstamp = :DTstamp)" +
                 "UNION " +
                 "SELECT w FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime AND w.humidity = (SELECT MIN(w.humidity) FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime)", Weather.class);
+                " w WHERE w.DTstamp = :DTstamp AND w.humidity = (SELECT MIN(w.humidity) FROM Weather" +
+                " w WHERE w.DTstamp = :DTstamp)", Weather.class);
 
-        tQry.setParameter("dateTime", dateTime);
+        tQry.setParameter("DTstamp", DTstamp);
 
         List<Weather> objListe = tQry.getResultList();
 
@@ -133,19 +138,19 @@ public class WeatherDAOImpl extends GenericDAOImpl<Weather> implements WeatherDA
     }
 
     @Override
-    public List<Weather> findMinMaxPressureByDateTime(LocalDateTime dateTime) {
+    public List<Weather> findMinMaxPressureByDateTime(LocalDateTime DTstamp) {
 
         EntityManager em = JpaUtil.createEntityManager();
 
         TypedQuery<Weather> tQry = em.createQuery("SELECT w FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime AND w.pressure = (SELECT MAX(w.pressure) FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime)" +
+                " w WHERE w.DTstamp = :DTstamp AND w.pressure = (SELECT MAX(w.pressure) FROM Weather" +
+                " w WHERE w.DTstamp = :DTstamp)" +
                 "UNION " +
                 "SELECT w FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime AND w.pressure = (SELECT MIN(w.pressure) FROM Weather" +
-                " w WHERE w.DTstamp = :dateTime)", Weather.class);
+                " w WHERE w.DTstamp = :DTstamp AND w.pressure = (SELECT MIN(w.pressure) FROM Weather" +
+                " w WHERE w.DTstamp = :DTstamp)", Weather.class);
 
-        tQry.setParameter("dateTime", dateTime);
+        tQry.setParameter("DTstamp", DTstamp);
 
         List<Weather> objListe = tQry.getResultList();
 

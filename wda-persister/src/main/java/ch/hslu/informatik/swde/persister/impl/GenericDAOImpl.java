@@ -4,6 +4,8 @@ import ch.hslu.informatik.swde.persister.DAO.GenericDAO;
 import ch.hslu.informatik.swde.persister.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,8 @@ import java.util.List;
  */
 
 public class GenericDAOImpl<T> implements GenericDAO<T> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(GenericDAOImpl.class);
 
     private final Class<T> entityClass;
 
@@ -119,6 +123,7 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
             objFromDb = tQry.getSingleResult();
         } catch (Exception e) {
             // No entity found in the database
+            LOG.info("No Entity found for field: " + fieldName + " and value: " + value);
         } finally {
             em.close();
             return objFromDb;
