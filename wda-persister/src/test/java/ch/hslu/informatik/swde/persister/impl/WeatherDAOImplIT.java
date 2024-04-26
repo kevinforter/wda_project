@@ -6,6 +6,7 @@ import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.DAO.WeatherDAO;
 import ch.hslu.informatik.swde.persister.util.Util;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,18 +21,23 @@ public class WeatherDAOImplIT {
         Util.cleanDatabase();
     }
 
+    @AfterEach
+    void clearUp() {
+        Util.cleanDatabase();
+    }
+
     @AfterAll
-    static void clearUp() {
-        //Util.cleanDatabase();
+    static void tearDown() {
+        Util.cleanDatabase();
     }
 
     @Test
-    void testWetterSpeichern() {
+    void test_SaveWeather_ShouldGetCorrectWeatherByID() {
 
         WeatherDAO daoW = new WeatherDAOImpl();
         CityDAO daoO = new CityDAOImpl();
 
-        for (City o : Util.createOrtschaftList()) {
+        for (City o : Util.createCityList()) {
             daoO.speichern(o);
             assertEquals(o, daoO.findById(o.getId()));
         }
@@ -44,29 +50,12 @@ public class WeatherDAOImplIT {
     }
 
     @Test
-    void testFindWetterById() {
+    void test_SaveWeather_ShouldGetAllWeatherDataInOneList() {
 
         WeatherDAO daoW = new WeatherDAOImpl();
         CityDAO daoO = new CityDAOImpl();
 
-        for (City o : Util.createOrtschaftList()) {
-            daoO.speichern(o);
-            assertEquals(o, daoO.findById(o.getId()));
-        }
-
-        for (Weather w : Util.createWetterList()) {
-            daoW.speichern(w);
-            assertEquals(w, daoW.findById(w.getId()));
-        }
-    }
-
-    @Test
-    void testWetterAlle() {
-
-        WeatherDAO daoW = new WeatherDAOImpl();
-        CityDAO daoO = new CityDAOImpl();
-
-        for (City o : Util.createOrtschaftList()) {
+        for (City o : Util.createCityList()) {
             daoO.speichern(o);
             assertEquals(o, daoO.findById(o.getId()));
         }
@@ -83,12 +72,12 @@ public class WeatherDAOImplIT {
     }
 
     @Test
-    void testGetWeatherFromCityByDateTime() {
+    void test_GetWeatherFromCityByDateTime_ShouldReturnOneWeather() {
 
         WeatherDAO daoW = new WeatherDAOImpl();
         CityDAO daoO = new CityDAOImpl();
 
-        List<City> ortschaftList = Util.createOrtschaftList();
+        List<City> ortschaftList = Util.createCityList();
 
         for (City o : ortschaftList) {
             daoO.speichern(o);
@@ -104,12 +93,12 @@ public class WeatherDAOImplIT {
     }
 
     @Test
-    void saveAllWeather() {
+    void test_SaveAllWeather_ShouldSaveAllAsGetAllWeather() {
 
         WeatherDAO dao = new WeatherDAOImpl();
         CityDAO daoO = new CityDAOImpl();
 
-        List<City> ortschaftList = Util.createOrtschaftList();
+        List<City> ortschaftList = Util.createCityList();
 
         for (City o : ortschaftList) {
             daoO.speichern(o);

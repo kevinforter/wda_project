@@ -25,6 +25,11 @@ public class CityDAOImplIT {
         Util.cleanDatabase();
     }
 
+    @AfterAll
+    static void tearDown() {
+        Util.cleanDatabase();
+    }
+
     @Test
     void test_SavingCity_ShouldBeSameAsFoundByID() {
 
