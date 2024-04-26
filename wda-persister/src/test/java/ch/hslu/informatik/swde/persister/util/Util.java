@@ -52,15 +52,14 @@ public class Util {
 
         LinkedHashMap<Integer, City> cityMap = new LinkedHashMap<>();
 
-        // Create some cities
-        City city1 = new City(3000, "Bern", "CH");
-        City city2 = new City(8001, "Zurich", "CH");
-        City city3 = new City(1201, "Geneva", "CH");
+        int[] zips = {3000, 8001, 1201, 7270, 8000, 6000, 1000, 2000};
+        String[] cityNames = {"Bern", "Zurich", "Geneva", "Davos", "Zurich", "Lucerne", "Lausanne", "Neuchatel"};
+        String countryCode = "CH";
 
-        // Put cities in the map with city name as the key
-        cityMap.put(city1.getZip(), city1);
-        cityMap.put(city2.getZip(), city2);
-        cityMap.put(city3.getZip(), city3);
+        for (int i = 0; i < zips.length; i++) {
+            City city = new City(zips[i], cityNames[i], countryCode);
+            cityMap.put(city.getZip(), city);
+        }
 
         return cityMap;
     }
