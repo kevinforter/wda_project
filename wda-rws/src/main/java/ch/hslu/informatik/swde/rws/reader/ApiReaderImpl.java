@@ -168,6 +168,14 @@ public class ApiReaderImpl implements ApiReader {
         }
     }
 
+    /**
+     * Zuerst werden alle Städte Namen über abgefragt
+     * @link weatherdata-provider/rest/weatherdata/cities/
+     * über einen for-loop werden alle Informationen zu den Städten abgefragt
+     * @link weatherdata-provider/rest/weatherdata?city=
+     *
+     * @return eine linked LinkedHashMap mit allen Städten als Key wird die Zip genommen
+     */
     @Override
     public LinkedHashMap<Integer, City> readCities() {
         try {
