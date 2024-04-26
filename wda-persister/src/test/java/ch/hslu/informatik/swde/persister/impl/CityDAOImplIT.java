@@ -25,7 +25,7 @@ public class CityDAOImplIT {
     }
 
     @Test
-    void test_SavingCity_andFindWithID() {
+    void test_SavingCity_ShouldBeSameAsFoundByID() {
 
         CityDAO dao = new CityDAOImpl();
 
@@ -37,7 +37,7 @@ public class CityDAOImplIT {
     }
 
     @Test
-    void testOrtschaftAlle() {
+    void test_getAllCitiesFormDB_ShouldBeTheSameAsSavedList() {
 
         CityDAO dao = new CityDAOImpl();
 
@@ -50,7 +50,7 @@ public class CityDAOImplIT {
         }
 
         listFromDB = dao.alle();
-        assertEquals(listFromUtil.size(), listFromDB.size());
+        assertEquals(listFromUtil, listFromDB, "DB ist nicht kongruent zur Liste");
     }
 
     @Test
