@@ -18,9 +18,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApiReaderIT {
-
-    CityDAO dao = new CityDAOImpl();
-
     @BeforeEach
     void setUp() {
         Util.cleanDatabase();
@@ -89,8 +86,6 @@ class ApiReaderIT {
         for (City c : resOrt.values()) {
             System.out.println(c);
         }
-
-        //dao.saveAllCities(resOrt);
     }
 
     /*----------------------------------------------WEATHER API REQUEST---------------------------------------------*/
