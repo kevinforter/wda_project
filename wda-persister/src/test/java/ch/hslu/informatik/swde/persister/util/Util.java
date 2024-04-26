@@ -68,17 +68,19 @@ public class Util {
         CityDAO daoO = new CityDAOImpl();
         List<Weather> list = new ArrayList<>();
 
-        for (int i = 0; i < createCityList().size(); i++) {
+        List<City> cityList = createCityList();
 
-            City ort = daoO.findCityByName(createCityList().get(i).getName());
+        for (City city : cityList) {
 
-            Weather wetter1 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 22, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
-            Weather wetter2 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 23, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
-            Weather wetter3 = new Weather(ort.getId(), LocalDateTime.now(), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
+            City ort = daoO.findCityByName(city.getName());
 
-            list.add(wetter1);
-            list.add(wetter2);
-            list.add(wetter3);
+            Weather weather1 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 22, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
+            Weather weather2 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 23, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
+            Weather weather3 = new Weather(ort.getId(), LocalDateTime.now(), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
+
+            list.add(weather1);
+            list.add(weather2);
+            list.add(weather3);
         }
 
         return list;
@@ -89,9 +91,11 @@ public class Util {
         CityDAO daoO = new CityDAOImpl();
         LinkedHashMap<LocalDateTime, Weather> weatherMap = new LinkedHashMap<>();
 
-        for (int i = 0; i < createCityList().size(); i++) {
+        List<City> cityList = createCityList();
 
-            City ort = daoO.findCityByName(createCityList().get(i).getName());
+        for (City city : cityList) {
+
+            City ort = daoO.findCityByName(city.getName());
 
             Weather weather1 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 21, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
             Weather weather2 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 22, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
