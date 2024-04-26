@@ -5,10 +5,7 @@ import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.impl.CityDAOImpl;
 import ch.hslu.informatik.swde.domain.City;
 import ch.hslu.informatik.swde.rws.util.Util;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -33,6 +30,7 @@ class ApiReaderIT {
 
     @Nested
     class CityTest {
+        @Tag("unittest")
         @Test
         void getCityNames() {
 
@@ -43,6 +41,7 @@ class ApiReaderIT {
             assertEquals(40, resNames.size());
         }
 
+        @Tag("unittest")
         @Test
         void getCityDetails() {
 
@@ -53,6 +52,7 @@ class ApiReaderIT {
             assertEquals(40, resNames.size());
         }
 
+        @Tag("unittest")
         @Test
         void getCityDetailsList() {
 
@@ -66,6 +66,7 @@ class ApiReaderIT {
 
         }
 
+        @Tag("unittest")
         @Test
         void getCities() {
 
