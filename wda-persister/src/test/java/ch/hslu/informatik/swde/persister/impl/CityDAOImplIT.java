@@ -4,6 +4,7 @@ import ch.hslu.informatik.swde.domain.City;
 import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.util.Util;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,32 +19,21 @@ public class CityDAOImplIT {
         Util.cleanDatabase();
     }
 
-    @AfterAll
-    static void clearUp() {
+    @AfterEach
+    void clearUp() {
         Util.cleanDatabase();
     }
 
     @Test
-    void testOrtschaftSpeichern() {
+    void test_SavingCity_andFindWithID() {
 
         CityDAO dao = new CityDAOImpl();
 
-        for (City c : Util.createOrtschaftList()) {
+        for (City c : Util.createCityList()) {
             dao.speichern(c);
-            assertEquals(c, dao.findById(c.getId()));
+            assertEquals(c, dao.findById(c.getId()), "Objekte stimmen nicht überein");
         }
 
-    }
-
-    @Test
-    void testFindOrtschaftById() {
-
-        CityDAO dao = new CityDAOImpl();
-
-        for (City c : Util.createOrtschaftList()) {
-            dao.speichern(c);
-            assertEquals(c, dao.findById(c.getId()));
-        }
     }
 
     @Test
@@ -51,7 +41,7 @@ public class CityDAOImplIT {
 
         CityDAO dao = new CityDAOImpl();
 
-        List<City> listFromUtil = Util.createOrtschaftList();
+        List<City> listFromUtil = Util.createCityList();
         List<City> listFromDB;
 
         for (City c : listFromUtil) {
@@ -68,7 +58,7 @@ public class CityDAOImplIT {
 
         CityDAO dao = new CityDAOImpl();
 
-        for (City c : Util.createOrtschaftList()) {
+        for (City c : Util.createCityList()) {
             dao.speichern(c);
             assertEquals(c, dao.findCityByName(c.getName()));
         }
@@ -79,7 +69,7 @@ public class CityDAOImplIT {
 
         CityDAO dao = new CityDAOImpl();
 
-        for (City c : Util.createOrtschaftList()) {
+        for (City c : Util.createCityList()) {
             dao.speichern(c);
             assertEquals(c, dao.findEntityByField("name", c.getName()));
         }
@@ -90,7 +80,7 @@ public class CityDAOImplIT {
 
         CityDAO dao = new CityDAOImpl();
 
-        dao.saveAllCities(Util.createOrtschaftMap());
+        dao.saveAllCities(Util.createCityMap());
         assertEquals(3, dao.alle().size());
 
     }
