@@ -31,18 +31,24 @@ public class Util {
 
     }
 
-    public static List<City> createOrtschaftList() {
+    public static List<City> createCityList() {
 
         List<City> list = new ArrayList<>();
 
-        list.add(new City(7260, "Davos", "CH"));
+        list.add(new City(7270, "Davos", "CH"));
         list.add(new City(8000, "Zurich", "CH"));
         list.add(new City(6000, "Lucerne", "CH"));
+        list.add(new City(1000, "Lausanne", "CH"));
+        list.add(new City(2000, "Neuchatel", "CH"));
+        list.add(new City(3000, "Bern", "CH"));
+        list.add(new City(4000, "Basel", "CH"));
+        list.add(new City(5000, "Aarau", "CH"));
+        list.add(new City(9000, "Lugano", "CH"));
 
         return list;
     }
 
-    public static LinkedHashMap<Integer, City> createOrtschaftMap() {
+    public static LinkedHashMap<Integer, City> createCityMap() {
 
         LinkedHashMap<Integer, City> cityMap = new LinkedHashMap<>();
 
@@ -56,16 +62,6 @@ public class Util {
         cityMap.put(city2.getZip(), city2);
         cityMap.put(city3.getZip(), city3);
 
-        // Retrieve a city from the map
-        City retrievedCity = cityMap.get(3000);
-        System.out.println(retrievedCity);
-
-        // Iterate over the map
-        for (Integer zip : cityMap.keySet()) {
-            City city = cityMap.get(zip);
-            System.out.println(city);
-        }
-
         return cityMap;
     }
 
@@ -74,10 +70,10 @@ public class Util {
         CityDAO daoO = new CityDAOImpl();
         List<Weather> list = new ArrayList<>();
 
-        for (int i = 0; i < createOrtschaftList().size(); i++) {
+        for (int i = 0; i < createCityList().size(); i++) {
 
             Weather wetter = new Weather();
-            City ort = daoO.findCityByName(createOrtschaftList().get(i).getName());
+            City ort = daoO.findCityByName(createCityList().get(i).getName());
             wetter.setCityId(ort.getId());
             wetter.setDTstamp(LocalDateTime.of(2023, 12, 3, 21, 30, 19));
             wetter.setCurrTempCelsius(-6.0);
@@ -106,9 +102,9 @@ public class Util {
         CityDAO daoO = new CityDAOImpl();
         LinkedHashMap<LocalDateTime, Weather> weatherMap = new LinkedHashMap<>();
 
-        for (int i = 0; i < createOrtschaftList().size(); i++) {
+        for (int i = 0; i < createCityList().size(); i++) {
 
-            City ort = daoO.findCityByName(createOrtschaftList().get(i).getName());
+            City ort = daoO.findCityByName(createCityList().get(i).getName());
 
             Weather weather1 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 21, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
             Weather weather2 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 22, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
