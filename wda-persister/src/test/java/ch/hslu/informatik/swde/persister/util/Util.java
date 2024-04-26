@@ -35,15 +35,14 @@ public class Util {
 
         List<City> list = new ArrayList<>();
 
-        list.add(new City(7270, "Davos", "CH"));
-        list.add(new City(8000, "Zurich", "CH"));
-        list.add(new City(6000, "Lucerne", "CH"));
-        list.add(new City(1000, "Lausanne", "CH"));
-        list.add(new City(2000, "Neuchatel", "CH"));
-        list.add(new City(3000, "Bern", "CH"));
-        list.add(new City(4000, "Basel", "CH"));
-        list.add(new City(5000, "Aarau", "CH"));
-        list.add(new City(9000, "Lugano", "CH"));
+        int[] zips = {3000, 8001, 1201, 7270, 8000, 6000, 1000, 2000};
+        String[] cityNames = {"Bern", "Zurich", "Geneva", "Davos", "Basel", "Lucerne", "Lausanne", "Neuchatel"};
+        String countryCode = "CH";
+
+        for (int i = 0; i < zips.length; i++) {
+            City city = new City(zips[i], cityNames[i], countryCode);
+            list.add(city);
+        }
 
         return list;
     }
@@ -53,7 +52,7 @@ public class Util {
         LinkedHashMap<Integer, City> cityMap = new LinkedHashMap<>();
 
         int[] zips = {3000, 8001, 1201, 7270, 8000, 6000, 1000, 2000};
-        String[] cityNames = {"Bern", "Zurich", "Geneva", "Davos", "Zurich", "Lucerne", "Lausanne", "Neuchatel"};
+        String[] cityNames = {"Bern", "Zurich", "Geneva", "Davos", "Basel", "Lucerne", "Lausanne", "Neuchatel"};
         String countryCode = "CH";
 
         for (int i = 0; i < zips.length; i++) {
