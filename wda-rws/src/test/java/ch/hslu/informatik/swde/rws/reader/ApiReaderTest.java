@@ -15,7 +15,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-class ApiReaderIT {
+class ApiReaderTest {
 
     static LinkedList<String> cities = new LinkedList<>();
     LinkedList<String> cityList = new LinkedList<>();
@@ -100,6 +100,7 @@ class ApiReaderIT {
 
     @Nested
     class WeatherTest {
+        @Tag("unittest")
         @Test
         void test_GetCurrentWeather_ShouldReturnNewestWeather() {
 
@@ -111,6 +112,7 @@ class ApiReaderIT {
             }
         }
 
+        @Tag("unittest")
         @Test
         void test_GetWeatherByCityAndYear_ShouldReturnListOfWeatherDataOfGivenYear() {
 
