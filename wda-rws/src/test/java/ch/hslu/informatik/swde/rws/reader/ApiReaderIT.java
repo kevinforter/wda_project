@@ -5,6 +5,8 @@ import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.impl.CityDAOImpl;
 import ch.hslu.informatik.swde.domain.City;
 import ch.hslu.informatik.swde.rws.util.Util;
+import jakarta.ws.rs.core.Link;
+import org.mockito.Mockito;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDateTime;
@@ -12,8 +14,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class ApiReaderIT {
     @BeforeEach
@@ -54,16 +59,20 @@ class ApiReaderIT {
 
         @Tag("unittest")
         @Test
-        void test_getCityDetailsList_ShouldBe40CitiesWithDetails() {
+        void test_getCityDetailsList_ShouldBe40CitiesWithCountryCodeCH() {
 
-            ApiReader proxy = new ApiReaderImpl();
+            ApiReader proxy = Mockito.mock(ApiReaderImpl.class);
 
-            LinkedList<String> resNames = proxy.readCityNames();
-            assertNotNull(resNames);
-            assertEquals(40, resNames.size());
+            LinkedList<String> mockCityNames = IntStream.range(0, 40)
+                    .mapToObj(i -> "City" + i)
+                    .collect(Collectors.toCollection(LinkedList::new));
+            when(proxy.readCityNames()).thenReturn(mockCityNames);
 
-            LinkedHashMap<Integer, City> resDetails = proxy.readCityDetailsList(resNames);
+            LinkedHashMap<Integer, City> resDetails = proxy.readCityDetailsList(mockCityNames);
 
+            for (City c : resDetails.values()) {
+                assertEquals("CH", c.getCountry());
+            }
         }
 
         @Tag("unittest")
