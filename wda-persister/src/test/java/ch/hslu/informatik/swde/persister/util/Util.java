@@ -1,17 +1,13 @@
-package ch.hslu.informatik.swde.persister.impl.util;
+package ch.hslu.informatik.swde.persister.util;
 
 import ch.hslu.informatik.swde.domain.City;
 import ch.hslu.informatik.swde.domain.Weather;
 import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.impl.CityDAOImpl;
-import ch.hslu.informatik.swde.persister.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 

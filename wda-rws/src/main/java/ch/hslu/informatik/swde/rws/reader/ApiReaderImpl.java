@@ -20,8 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
- * Diese Klasse stellt eine konkrete Implementierung der Schnittstelle
- * 'ApiReader' dar.
+ * Diese Klasse stellt eine konkrete Implementierung der Schnittstelle 'ApiReader' dar.
  */
 
 public class ApiReaderImpl implements ApiReader {

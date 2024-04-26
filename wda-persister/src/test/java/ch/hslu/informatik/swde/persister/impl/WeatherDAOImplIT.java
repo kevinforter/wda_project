@@ -4,12 +4,11 @@ import ch.hslu.informatik.swde.domain.City;
 import ch.hslu.informatik.swde.domain.Weather;
 import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.DAO.WeatherDAO;
-import ch.hslu.informatik.swde.persister.impl.util.Util;
+import ch.hslu.informatik.swde.persister.util.Util;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

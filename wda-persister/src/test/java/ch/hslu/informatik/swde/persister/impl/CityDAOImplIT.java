@@ -2,7 +2,7 @@ package ch.hslu.informatik.swde.persister.impl;
 
 import ch.hslu.informatik.swde.domain.City;
 import ch.hslu.informatik.swde.persister.DAO.CityDAO;
-import ch.hslu.informatik.swde.persister.impl.util.Util;
+import ch.hslu.informatik.swde.persister.util.Util;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
