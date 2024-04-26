@@ -89,7 +89,7 @@ public class CityDAOImplIT {
         LinkedHashMap<Integer, City> mapFromUtil = Util.createCityMap();
 
         dao.saveAllCities(mapFromUtil);
-        assertEquals(mapFromUtil.size(), dao.alle().size());
+        assertEquals(mapFromUtil.size(), dao.alle().size(), "Array not the Same");
 
     }
 }
