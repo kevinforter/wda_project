@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -76,12 +77,14 @@ public class CityDAOImplIT {
     }
 
     @Test
-    void saveAllCities() {
+    void test_saveAllCities_ShouldMakeABulkSave() {
 
         CityDAO dao = new CityDAOImpl();
 
-        dao.saveAllCities(Util.createCityMap());
-        assertEquals(3, dao.alle().size());
+        LinkedHashMap<Integer, City> mapFromUtil = Util.createCityMap();
+
+        dao.saveAllCities(mapFromUtil);
+        assertEquals(mapFromUtil.size(), dao.alle().size());
 
     }
 }
