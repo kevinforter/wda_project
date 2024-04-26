@@ -37,6 +37,28 @@ public class CityDAOImplIT {
     }
 
     @Test
+    void test_SavingCity_ShouldBeSameAsFoundByName() {
+
+        CityDAO dao = new CityDAOImpl();
+
+        for (City c : Util.createCityList()) {
+            dao.speichern(c);
+            assertEquals(c, dao.findCityByName(c.getName()), "Objekte stimmen nicht überein");
+        }
+    }
+
+    @Test
+    void test_SavingCity_ShouldBeSameAsFoundByFieldNameAndValue() {
+
+        CityDAO dao = new CityDAOImpl();
+
+        for (City c : Util.createCityList()) {
+            dao.speichern(c);
+            assertEquals(c, dao.findEntityByField("name", c.getName()), "Objekte stimmen nicht überein");
+        }
+    }
+
+    @Test
     void test_getAllCitiesFormDB_ShouldBeTheSameAsSavedList() {
 
         CityDAO dao = new CityDAOImpl();
@@ -51,28 +73,6 @@ public class CityDAOImplIT {
 
         listFromDB = dao.alle();
         assertEquals(listFromUtil, listFromDB, "DB ist nicht kongruent zur Liste");
-    }
-
-    @Test
-    void testFindCityByName() {
-
-        CityDAO dao = new CityDAOImpl();
-
-        for (City c : Util.createCityList()) {
-            dao.speichern(c);
-            assertEquals(c, dao.findCityByName(c.getName()));
-        }
-    }
-
-    @Test
-    void testFindEntityByField() {
-
-        CityDAO dao = new CityDAOImpl();
-
-        for (City c : Util.createCityList()) {
-            dao.speichern(c);
-            assertEquals(c, dao.findEntityByField("name", c.getName()));
-        }
     }
 
     @Test
