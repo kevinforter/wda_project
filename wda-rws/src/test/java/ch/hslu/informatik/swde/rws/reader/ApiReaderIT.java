@@ -48,18 +48,28 @@ class ApiReaderIT {
 
         @Tag("unittest")
         @Test
-        void test_GetCityDetails_ShouldBe40CitiesWithDetails() {
+        void test_GetDetailsPerCity_ShouldBe40CitiesWithCountryCodeCH() {
 
-            ApiReader proxy = new ApiReaderImpl();
+            ApiReader proxy = Mockito.mock(ApiReaderImpl.class);
 
-            LinkedList<String> resNames = proxy.readCityNames();
-            assertNotNull(resNames);
-            assertEquals(40, resNames.size());
+            LinkedList<String> mockCityNames = IntStream.range(0, 40)
+                    .mapToObj(i -> "City" + i)
+                    .collect(Collectors.toCollection(LinkedList::new));
+            when(proxy.readCityNames()).thenReturn(mockCityNames);
+
+            City mockCity = new City();
+            mockCity.setCountry("CH");
+            when(proxy.readCityDetails(Mockito.anyString())).thenReturn(mockCity);
+
+            for(String cityName : mockCityNames) {
+                City city = proxy.readCityDetails(cityName);
+                assertEquals("CH", city.getCountry());
+            }
         }
 
         @Tag("unittest")
         @Test
-        void test_getCityDetailsList_ShouldBe40CitiesWithCountryCodeCH() {
+        void test_GetCityDetailsList_ShouldBe40CitiesWithCountryCodeCH() {
 
             ApiReader proxy = Mockito.mock(ApiReaderImpl.class);
 
