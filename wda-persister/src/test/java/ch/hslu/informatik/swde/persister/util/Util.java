@@ -70,23 +70,12 @@ public class Util {
 
         for (int i = 0; i < createCityList().size(); i++) {
 
-            Weather wetter = new Weather();
             City ort = daoO.findCityByName(createCityList().get(i).getName());
-            wetter.setCityId(ort.getId());
-            wetter.setDTstamp(LocalDateTime.of(2023, 12, 3, 21, 30, 19));
-            wetter.setCurrTempCelsius(-6.0);
-            wetter.setHumidity(91);
-            wetter.setPressure(1234);
-            wetter.setWindDirection(10);
-            wetter.setWindSpeed(23.0);
-            wetter.setWeatherDescription("good");
-            wetter.setWeatherSummery("sunny");
 
             Weather wetter1 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 22, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
             Weather wetter2 = new Weather(ort.getId(), LocalDateTime.of(2023, 12, 3, 23, 30, 19), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
             Weather wetter3 = new Weather(ort.getId(), LocalDateTime.now(), "foggy", "fog", 23.0, 982.0, 91.0, 43.0, 10.0);
 
-            list.add(wetter);
             list.add(wetter1);
             list.add(wetter2);
             list.add(wetter3);
