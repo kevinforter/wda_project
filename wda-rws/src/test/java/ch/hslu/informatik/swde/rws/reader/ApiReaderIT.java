@@ -32,7 +32,7 @@ class ApiReaderIT {
     class CityTest {
         @Tag("unittest")
         @Test
-        void getCityNames() {
+        void test_GetCityNames_ShouldBe40Cities() {
 
             ApiReader proxy = new ApiReaderImpl();
 
@@ -43,7 +43,7 @@ class ApiReaderIT {
 
         @Tag("unittest")
         @Test
-        void getCityDetails() {
+        void test_GetCityDetails_ShouldBe40CitiesWithDetails() {
 
             ApiReader proxy = new ApiReaderImpl();
 
@@ -54,7 +54,7 @@ class ApiReaderIT {
 
         @Tag("unittest")
         @Test
-        void getCityDetailsList() {
+        void test_getCityDetailsList_ShouldBe40CitiesWithDetails() {
 
             ApiReader proxy = new ApiReaderImpl();
 
@@ -68,7 +68,7 @@ class ApiReaderIT {
 
         @Tag("unittest")
         @Test
-        void getCities() {
+        void test_GetCitiesObjects_ShouldBe40Cities() {
 
             ApiReader proxy = new ApiReaderImpl();
 
