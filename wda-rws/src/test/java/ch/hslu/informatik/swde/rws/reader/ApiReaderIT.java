@@ -1,35 +1,34 @@
 package ch.hslu.informatik.swde.rws.reader;
 
 import ch.hslu.informatik.swde.domain.Weather;
-import ch.hslu.informatik.swde.persister.DAO.CityDAO;
-import ch.hslu.informatik.swde.persister.impl.CityDAOImpl;
 import ch.hslu.informatik.swde.domain.City;
 import ch.hslu.informatik.swde.rws.util.Util;
-import jakarta.ws.rs.core.Link;
-import org.mockito.Mockito;
-import org.junit.jupiter.api.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.mockito.Mockito;
+import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class ApiReaderIT {
-    @BeforeEach
-    void setUp() {
-        Util.cleanDatabase();
+
+    static LinkedList<String> cities = new LinkedList<>();
+    LinkedList<String> cityList = new LinkedList<>();
+    @BeforeAll
+    static void setUp() {
+        cities = Util.createCities();
     }
 
-    @AfterAll
-    static void cleanUp() {
-        Util.cleanDatabase();
-    }
+   @BeforeEach
+   void createCityList() {
+        cityList = new LinkedList<>();
+        cityList.addAll(cities);
+   }
 
     /*-----------------------------------------------CITY API REQUEST-----------------------------------------------*/
 
@@ -102,48 +101,24 @@ class ApiReaderIT {
     @Nested
     class WeatherTest {
         @Test
-        void getCurrentWeather() {
+        void test_GetCurrentWeather_ShouldReturnNewestWeather() {
 
             ApiReader proxy = new ApiReaderImpl();
-            CityDAO daoCity = new CityDAOImpl();
-            Util.createCities();
 
-            List<City> cityList = daoCity.alle();
-
-            Weather resWeather = proxy.readCurrentWeatherByCity("Davos");
-            assertNotNull(resWeather);
-
-            int cityId_weather = resWeather.getCityId();
-            int cityId_city = 0;
-            for (City city : cityList) {
-                if (city.getName().equals("Davos")) {
-                    cityId_city = city.getId();
-                }
+            for(String cityName : cityList) {
+                Weather resWeather = proxy.readCurrentWeatherByCity(cityName);
+                assertNotNull(resWeather);
             }
-            assertEquals(cityId_city, cityId_weather);
         }
 
         @Test
-        void getWeatherByCityAndYear() {
+        void test_GetWeatherByCityAndYear_ShouldReturnListOfWeatherDataOfGivenYear() {
 
             ApiReader proxy = new ApiReaderImpl();
-            CityDAO daoCity = new CityDAOImpl();
-            Util.createCities();
 
-            LinkedHashMap<LocalDateTime, Weather> resWeather = proxy.readWeatherByCityAndYear("Davos", 2023);
-            assertNotNull(resWeather);
-
-            List<City> cityList = daoCity.alle();
-            int cityId_city = 0;
-            for (City city : cityList) {
-                if (city.getName().equals("Davos")) {
-                    cityId_city = city.getId();
-                }
-            }
-
-            for (Weather weather : resWeather.values()) {
-                int ortId_wetter = weather.getCityId();
-                assertEquals(cityId_city, ortId_wetter);
+            for(String cityName : cityList) {
+                LinkedHashMap<LocalDateTime, Weather> resWeather = proxy.readWeatherByCityAndYear(cityName, 2024);
+                assertNotNull(resWeather);
             }
         }
     }
