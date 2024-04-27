@@ -34,7 +34,7 @@ class ApiReaderTest {
 
             LinkedList<String> resNames = proxy.readCityNames();
             assertNotNull(resNames);
-            assertEquals(40, resNames.size());
+            assertEquals(40, resNames.size(), "Nicht alle Städte vorhanden");
         }
 
         @Tag("unittest")
@@ -54,7 +54,7 @@ class ApiReaderTest {
 
             for (String cityName : mockCityNames) {
                 City city = proxy.readCityDetails(cityName);
-                assertEquals("CH", city.getCountry());
+                assertEquals("CH", city.getCountry(), "Country Code CH fehlt");
             }
         }
 
@@ -72,7 +72,7 @@ class ApiReaderTest {
             LinkedHashMap<Integer, City> resDetails = proxy.readCityDetailsList(mockCityNames);
 
             for (City c : resDetails.values()) {
-                assertEquals("CH", c.getCountry());
+                assertEquals("CH", c.getCountry(), "Country Code CH fehlt");
             }
         }
 
@@ -84,7 +84,7 @@ class ApiReaderTest {
 
             LinkedHashMap<Integer, City> resOrt = proxy.readCities();
             assertNotNull(resOrt);
-            assertEquals(40, resOrt.size());
+            assertEquals(40, resOrt.size(), "Nicht alle Städte vorhanden");
         }
     }
 
@@ -101,7 +101,7 @@ class ApiReaderTest {
 
             for (String cityName : cityList) {
                 Weather resWeather = proxy.readCurrentWeatherByCity(cityName);
-                assertNotNull(resWeather);
+                assertNotNull(resWeather, "Liste ist leer");
             }
         }
 
@@ -114,7 +114,7 @@ class ApiReaderTest {
 
             for (String cityName : cityList) {
                 LinkedHashMap<LocalDateTime, Weather> resWeather = proxy.readWeatherByCityAndYear(cityName, 2024);
-                assertNotNull(resWeather);
+                assertNotNull(resWeather, "Liste ist leer");
             }
         }
 
