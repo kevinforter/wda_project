@@ -2,6 +2,8 @@ package ch.hslu.informatik.swde.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,7 +15,10 @@ import java.util.Objects;
  */
 
 @Entity
-public class Weather {
+public class Weather implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -2545723421326092280L;
 
     @Id
     @GeneratedValue
