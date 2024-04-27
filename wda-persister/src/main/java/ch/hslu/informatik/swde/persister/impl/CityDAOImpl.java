@@ -49,7 +49,7 @@ public class CityDAOImpl extends GenericDAOImpl<City> implements CityDAO {
 
             for (City city : cityMap.values()) {
                 // Check if the city is already in the database
-                City existingCity = findEntityByField("name", city.getName());
+                City existingCity = findEntityByFieldAndString("name", city.getName());
 
                 // If the city is not in the database, persist it
                 if (existingCity == null) em.persist(city);
