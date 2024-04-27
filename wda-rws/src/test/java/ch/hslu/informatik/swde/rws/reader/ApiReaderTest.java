@@ -9,26 +9,18 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class ApiReaderTest {
 
-    static LinkedList<String> cities = new LinkedList<>();
-    LinkedList<String> cityList = new LinkedList<>();
-    @BeforeAll
-    static void setUp() {
-        cities = Util.createCities();
-    }
-
-   @BeforeEach
-   void createCityList() {
-        cityList = new LinkedList<>();
-        cityList.addAll(cities);
-   }
 
     /*-----------------------------------------------CITY API REQUEST-----------------------------------------------*/
 
@@ -60,7 +52,7 @@ class ApiReaderTest {
             mockCity.setCountry("CH");
             when(proxy.readCityDetails(Mockito.anyString())).thenReturn(mockCity);
 
-            for(String cityName : mockCityNames) {
+            for (String cityName : mockCityNames) {
                 City city = proxy.readCityDetails(cityName);
                 assertEquals("CH", city.getCountry());
             }
@@ -101,27 +93,34 @@ class ApiReaderTest {
     @Nested
     class WeatherTest {
         @Tag("unittest")
-        @Test
-        void test_GetCurrentWeather_ShouldReturnNewestWeather() {
+        @ParameterizedTest
+        @MethodSource("cityListProvider")
+        void test_GetCurrentWeather_ShouldReturnNewestWeather(LinkedList<String> cityList) {
 
             ApiReader proxy = new ApiReaderImpl();
 
-            for(String cityName : cityList) {
+            for (String cityName : cityList) {
                 Weather resWeather = proxy.readCurrentWeatherByCity(cityName);
                 assertNotNull(resWeather);
             }
         }
 
         @Tag("unittest")
-        @Test
-        void test_GetWeatherByCityAndYear_ShouldReturnListOfWeatherDataOfGivenYear() {
+        @ParameterizedTest
+        @MethodSource("cityListProvider")
+        void test_GetWeatherByCityAndYear_ShouldReturnListOfWeatherDataOfGivenYear(LinkedList<String> cityList) {
 
             ApiReader proxy = new ApiReaderImpl();
 
-            for(String cityName : cityList) {
+            for (String cityName : cityList) {
                 LinkedHashMap<LocalDateTime, Weather> resWeather = proxy.readWeatherByCityAndYear(cityName, 2024);
                 assertNotNull(resWeather);
             }
+        }
+
+        static Stream<LinkedList<String>> cityListProvider() {
+            LinkedList<String> cities = Util.createCities();
+            return Stream.of(cities);
         }
     }
 }
