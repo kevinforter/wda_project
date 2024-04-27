@@ -5,12 +5,13 @@ import ch.hslu.informatik.swde.domain.Weather;
 import ch.hslu.informatik.swde.persister.DAO.CityDAO;
 import ch.hslu.informatik.swde.persister.DAO.WeatherDAO;
 import ch.hslu.informatik.swde.persister.util.Util;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,15 +32,17 @@ public class WeatherDAOImplIT {
         Util.cleanDatabase();
     }
 
-    @Test
-    void test_SaveWeather_ShouldGetCorrectWeatherByID() {
+    @Tag("unittest")
+    @ParameterizedTest
+    @MethodSource("cityListProvider")
+    void test_SaveWeather_ShouldGetCorrectWeatherByID(List<City> cityList) {
 
         WeatherDAO daoW = new WeatherDAOImpl();
         CityDAO daoO = new CityDAOImpl();
 
-        for (City o : Util.createCityList()) {
-            daoO.speichern(o);
-            assertEquals(o, daoO.findById(o.getId()));
+        for (City c : cityList) {
+            daoO.speichern(c);
+            assertEquals(c, daoO.findById(c.getId()));
         }
 
         for (Weather w : Util.createWetterList()) {
@@ -49,15 +52,17 @@ public class WeatherDAOImplIT {
 
     }
 
-    @Test
-    void test_SaveWeather_ShouldGetAllWeatherDataInOneList() {
+    @Tag("unittest")
+    @ParameterizedTest
+    @MethodSource("cityListProvider")
+    void test_SaveWeather_ShouldGetAllWeatherDataInOneList(List<City> cityList) {
 
         WeatherDAO daoW = new WeatherDAOImpl();
         CityDAO daoO = new CityDAOImpl();
 
-        for (City o : Util.createCityList()) {
-            daoO.speichern(o);
-            assertEquals(o, daoO.findById(o.getId()));
+        for (City c : cityList) {
+            daoO.speichern(c);
+            assertEquals(c, daoO.findById(c.getId()));
         }
 
         List<Weather> listFromUtil = Util.createWetterList();
@@ -71,17 +76,17 @@ public class WeatherDAOImplIT {
         assertEquals(listFromUtil.size(), listFromDB.size());
     }
 
-    @Test
-    void test_GetWeatherFromCityByDateTime_ShouldReturnOneWeather() {
+    @Tag("unittest")
+    @ParameterizedTest
+    @MethodSource("cityListProvider")
+    void test_GetWeatherFromCityByDateTime_ShouldReturnOneWeather(List<City> cityList) {
 
         WeatherDAO daoW = new WeatherDAOImpl();
         CityDAO daoO = new CityDAOImpl();
 
-        List<City> ortschaftList = Util.createCityList();
-
-        for (City o : ortschaftList) {
-            daoO.speichern(o);
-            assertEquals(o, daoO.findById(o.getId()));
+        for (City c : cityList) {
+            daoO.speichern(c);
+            assertEquals(c, daoO.findById(c.getId()));
         }
 
         List<Weather> wetterList = Util.createWetterList();
@@ -92,21 +97,26 @@ public class WeatherDAOImplIT {
         }
     }
 
-    @Test
-    void test_SaveAllWeather_ShouldSaveAllAsGetAllWeather() {
+    @Tag("unittest")
+    @ParameterizedTest
+    @MethodSource("cityListProvider")
+    void test_SaveAllWeather_ShouldSaveAllAsGetAllWeather(List<City> cityList) {
 
-        WeatherDAO dao = new WeatherDAOImpl();
+        WeatherDAO daoW = new WeatherDAOImpl();
         CityDAO daoO = new CityDAOImpl();
 
-        List<City> ortschaftList = Util.createCityList();
-
-        for (City o : ortschaftList) {
-            daoO.speichern(o);
-            assertEquals(o, daoO.findById(o.getId()));
+        for (City c : cityList) {
+            daoO.speichern(c);
+            assertEquals(c, daoO.findById(c.getId()));
         }
 
-        dao.saveAllWeather(Util.createWeatherMap());
+        daoW.saveAllWeather(Util.createWeatherMap());
 
-        assertEquals(3, dao.alle().size());
+        assertEquals(3, daoW.alle().size());
+    }
+
+    static Stream<List<City>> cityListProvider() {
+        List<City> cities = Util.createCityList();
+        return Stream.of(cities);
     }
 }
