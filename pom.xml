@@ -56,6 +56,7 @@
         <module>wda-domain</module>
         <module>wda-persister</module>
         <module>wda-rws</module>
+        <module>wda-business</module>
     </modules>
 
     <scm>
