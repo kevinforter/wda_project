@@ -70,12 +70,6 @@
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>ch.hslu.informatik.swde</groupId>
-            <artifactId>wda-persister</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
 
         <!-- Jersey Spezifikation -->
         <dependency>
