@@ -10,8 +10,8 @@ import java.util.Objects;
 /**
  * Diese Klasse repräsentiert das Weather.
  *
- * @author Florian
- * @version 1.0
+ * @author Kevin Forter
+ * @version 1.1
  */
 
 @Entity
