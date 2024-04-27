@@ -66,7 +66,7 @@ public class CityDAOImplTest {
 
         for (City c : listFromUtil) {
             dao.speichern(c);
-            assertEquals(c, dao.findEntityByField("name", c.getName()), "Objekte stimmen nicht überein");
+            assertEquals(c, dao.findEntityByFieldAndString("name", c.getName()), "Objekte stimmen nicht überein");
         }
     }
 

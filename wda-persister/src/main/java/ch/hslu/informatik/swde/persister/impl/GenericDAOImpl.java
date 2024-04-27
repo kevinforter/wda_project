@@ -111,7 +111,7 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public T findEntityByField(String fieldName, String value) {
+    public T findEntityByFieldAndString(String fieldName, String value) {
         EntityManager em = JpaUtil.createEntityManager();
 
         T objFromDb = null;
